@@ -1,4 +1,39 @@
-var HACKLE;
+var VimeoAPI;
+(function (VimeoAPI) {
+    var Videos = (function () {
+        function Videos() {
+        }
+        Videos.responseFromVimeosOfUser = function (vimeoUserName) {
+            var vimeosAPIPath = 'http://vimeo.com/api/v2/' + vimeoUserName.toString() + '/videos.json';
+
+            var responseJSON;
+
+            var getVimeoJSONP = $.ajax({
+                type: 'get',
+                url: vimeosAPIPath,
+                dataType: 'json',
+                async: false
+            });
+
+            getVimeoJSONP.done(function (json) {
+                responseJSON = json;
+            });
+
+            getVimeoJSONP.fail(function (json) {
+                responseJSON = json;
+            });
+
+            return responseJSON;
+        };
+        return Videos;
+    })();
+    VimeoAPI.Videos = Videos;
+})(VimeoAPI || (VimeoAPI = {}));
+
+(function () {
+    console.log(VimeoAPI.Videos.responseFromVimeosOfUser('terjes'));
+})();
+;var HACKLE;
 (function (HACKLE) {
     var View = (function () {
         function View(viewCreateOptions) {
@@ -68,15 +103,16 @@ var HACKLE;
             var resultHTML;
             var _hbsName = this.hbsName;
 
-            $.ajax({
+            var $getHBSTemplate = $.ajax({
                 url: _hbsName,
                 type: 'get',
                 dataType: 'html',
-                async: false,
-                success: function (hbs) {
-                    var template = Handlebars.compile(hbs);
-                    resultHTML = template(data);
-                }
+                async: false
+            });
+
+            $getHBSTemplate.done(function (hbs) {
+                var template = Handlebars.compile(hbs);
+                resultHTML = template(data);
             });
 
             return resultHTML;
@@ -98,12 +134,12 @@ var HACKLE;
 };
 var DEMO;
 (function (DEMO) {
-    var GreetingView = (function (_super) {
-        __extends(GreetingView, _super);
-        function GreetingView() {
+    var VimeosView = (function (_super) {
+        __extends(VimeosView, _super);
+        function VimeosView() {
             _super.call(this);
             this.tagName = 'article';
-            this.className = 'greeting';
+            this.className = 'vimeos';
             this.events = {
                 "click .header": this.headerTest,
                 "click .cat": function (event) {
@@ -115,35 +151,27 @@ var DEMO;
             this.reflectAttribute();
             this.delegateEvents(this.events);
         }
-        GreetingView.prototype.headerTest = function () {
+        VimeosView.prototype.headerTest = function () {
             console.log("click .header");
         };
 
-        GreetingView.prototype.render = function () {
+        VimeosView.prototype.render = function () {
             this.$el.append(this.renderTemplate());
 
             return this;
         };
 
-        GreetingView.prototype.renderTemplate = function () {
-            var template = new HACKLE.HBSTemplate('hbs/greeting.hbs');
-            return template.render({
-                greeting: 'Hello HACKLE.View',
-                animals: [
-                    { name: 'cat', anchor: '#cat' },
-                    { name: 'dog', anchor: '#dog' },
-                    { name: 'rion', anchor: '#rion' }
-                ],
-                copyright: "funnythingz"
-            });
+        VimeosView.prototype.renderTemplate = function () {
+            var template = new HACKLE.HBSTemplate('hbs/vimeos.hbs');
+            return template.render({});
         };
-        return GreetingView;
+        return VimeosView;
     })(HACKLE.View);
-    DEMO.GreetingView = GreetingView;
+    DEMO.VimeosView = VimeosView;
 })(DEMO || (DEMO = {}));
 
 $(function () {
-    var greetingView = new DEMO.GreetingView();
-    $('#main').append(greetingView.render().$el);
-    console.log(greetingView.$el.html());
+    var vimeosView = new DEMO.VimeosView();
+    $('#main').append(vimeosView.render().$el);
+    console.log(vimeosView.$el.html());
 });
