@@ -3,10 +3,10 @@
 
 module DEMO {
 
-    export class GreetingView extends HACKLE.View {
+    export class VimeosView extends HACKLE.View {
 
         tagName: string = 'article';
-        className: string = 'greeting';
+        className: string = 'vimeos';
 
         constructor() {
             super();
@@ -27,7 +27,7 @@ module DEMO {
             console.log("click .header");
         }
 
-        render(): GreetingView {
+        render(): VimeosView {
             this.$el.append(
                 this.renderTemplate()
             );
@@ -36,15 +36,8 @@ module DEMO {
         }
 
         private renderTemplate(): string {
-            var template = new HACKLE.HBSTemplate('hbs/greeting.hbs');
+            var template = new HACKLE.HBSTemplate('hbs/vimeos.hbs');
             return template.render({
-                greeting: 'Hello HACKLE.View',
-                animals: [
-                    {name: 'cat', anchor: '#cat'},
-                    {name: 'dog', anchor: '#dog'},
-                    {name: 'rion', anchor: '#rion'}
-                ],
-                copyright: "funnythingz"
             });
         }
 
@@ -53,7 +46,7 @@ module DEMO {
 }
 
 $(() => {
-    var greetingView: DEMO.GreetingView = new DEMO.GreetingView();
-    $('#main').append(greetingView.render().$el);
-    console.log(greetingView.$el.html());
+    var vimeosView: DEMO.VimeosView = new DEMO.VimeosView();
+    $('#main').append(vimeosView.render().$el);
+    console.log(vimeosView.$el.html());
 });
