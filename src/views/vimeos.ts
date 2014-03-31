@@ -37,7 +37,9 @@ module DEMO {
 
         private renderTemplate(): string {
             var template = new HACKLE.HBSTemplate('hbs/vimeos.hbs');
+
             return template.render({
+                // TODO: APIからとったデータはめる
             });
         }
 
