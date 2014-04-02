@@ -1,4 +1,18 @@
-var VimeoAPI;
+var HACKLE;
+(function (HACKLE) {
+    var Controller = (function () {
+        function Controller() {
+        }
+        return Controller;
+    })();
+    HACKLE.Controller = Controller;
+})(HACKLE || (HACKLE = {}));
+
+$(function () {
+    var vimeosView = new DEMO.VimeosView();
+    $('#main').append(vimeosView.render().$el);
+});
+;var VimeoAPI;
 (function (VimeoAPI) {
     var Videos = (function () {
         function Videos() {
@@ -163,15 +177,10 @@ var DEMO;
 
         VimeosView.prototype.renderTemplate = function () {
             var template = new HACKLE.HBSTemplate('hbs/vimeos.hbs');
+
             return template.render({});
         };
         return VimeosView;
     })(HACKLE.View);
     DEMO.VimeosView = VimeosView;
 })(DEMO || (DEMO = {}));
-
-$(function () {
-    var vimeosView = new DEMO.VimeosView();
-    $('#main').append(vimeosView.render().$el);
-    console.log(vimeosView.$el.html());
-});

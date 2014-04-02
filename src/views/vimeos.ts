@@ -1,5 +1,5 @@
 /// <reference path="../../definitions/jquery.d.ts" />
-/// <reference path="../applications/hackleview/hackleview.ts" />
+/// <reference path="../infrastructure/hackleview.ts" />
 
 module DEMO {
 
@@ -46,9 +46,3 @@ module DEMO {
     }
 
 }
-
-$(() => {
-    var vimeosView: DEMO.VimeosView = new DEMO.VimeosView();
-    $('#main').append(vimeosView.render().$el);
-    console.log(vimeosView.$el.html());
-});
