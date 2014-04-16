@@ -1,6 +1,6 @@
 http_path = "/"
 css_dir = "public/css"
-sass_dir = "sass"
+sass_dir = "scss"
 images_dir = "public/imgs"
 javascripts_dir = "public/"
 

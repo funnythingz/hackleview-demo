@@ -40,7 +40,7 @@ module.exports = (grunt)->
           atBegin: true
 
       css:
-        files: ['sass/**/*.scss']
+        files: ['scss/**/*.scss']
         tasks: ['compass']
         options:
           atBegin: true
