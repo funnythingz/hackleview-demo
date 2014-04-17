@@ -1,52 +1,93 @@
-var HACKLE;
-(function (HACKLE) {
+var DEMO;
+(function (DEMO) {
+    var Application = (function () {
+        function Application() {
+            this.ready();
+        }
+        Application.prototype.ready = function () {
+            var controller = new DEMO.Controller();
+            controller.ready();
+        };
+        return Application;
+    })();
+
+    $(function () {
+        new Application();
+    });
+})(DEMO || (DEMO = {}));
+;var DEMO;
+(function (DEMO) {
     var Controller = (function () {
         function Controller() {
         }
+        Controller.prototype.ready = function () {
+        };
         return Controller;
     })();
-    HACKLE.Controller = Controller;
-})(HACKLE || (HACKLE = {}));
-
-$(function () {
-    var vimeosView = new DEMO.VimeosView();
-    $('#main').append(vimeosView.render().$el);
-});
-;var VimeoAPI;
-(function (VimeoAPI) {
-    var Videos = (function () {
-        function Videos() {
+    DEMO.Controller = Controller;
+})(DEMO || (DEMO = {}));
+;var Infra;
+(function (Infra) {
+    var HogeAPI = (function () {
+        function HogeAPI() {
         }
-        Videos.responseFromVimeosOfUser = function (vimeoUserName) {
-            var vimeosAPIPath = 'http://vimeo.com/api/v2/' + vimeoUserName.toString() + '/videos.json';
+        HogeAPI.resolve = function () {
+            var apiPath = HogeAPI.getApiPath();
 
-            var responseJSON;
+            var promise = $.ajax({ type: 'get', url: apiPath, dataType: 'json', async: true });
 
-            var getVimeoJSONP = $.ajax({
-                type: 'get',
-                url: vimeosAPIPath,
-                dataType: 'json',
-                async: false
-            });
-
-            getVimeoJSONP.done(function (json) {
-                responseJSON = json;
-            });
-
-            getVimeoJSONP.fail(function (json) {
-                responseJSON = json;
-            });
-
-            return responseJSON;
+            return promise;
         };
-        return Videos;
-    })();
-    VimeoAPI.Videos = Videos;
-})(VimeoAPI || (VimeoAPI = {}));
 
-(function () {
-    console.log(VimeoAPI.Videos.responseFromVimeosOfUser('terjes'));
-})();
+        HogeAPI.getApiPath = function () {
+            return "";
+        };
+        return HogeAPI;
+    })();
+    Infra.HogeAPI = HogeAPI;
+
+    var Promise = (function () {
+        function Promise() {
+            return HogeAPI.resolve();
+        }
+        return Promise;
+    })();
+    Infra.Promise = Promise;
+})(Infra || (Infra = {}));
+;var DDD;
+(function (DDD) {
+    var Entity = (function () {
+        function Entity(identity) {
+            this.identity = identity;
+        }
+        Entity.prototype.getIdentity = function () {
+            return this.identity;
+        };
+
+        Entity.prototype.equals = function (other) {
+            return this.getIdentity() === other.getIdentity();
+        };
+        return Entity;
+    })();
+    DDD.Entity = Entity;
+})(DDD || (DDD = {}));
+;var DDD;
+(function (DDD) {
+    var Identity = (function () {
+        function Identity(value) {
+            this.value = value;
+        }
+        Identity.prototype.getValue = function () {
+            return this.value.toString();
+        };
+
+        Identity.prototype.getIdentity = function () {
+            return this.value;
+        };
+        return Identity;
+    })();
+    DDD.Identity = Identity;
+})(DDD || (DDD = {}));
 ;var HACKLE;
 (function (HACKLE) {
     var View = (function () {
@@ -140,6 +181,84 @@ $(function () {
     }
     HACKLE.isJQuery = isJQuery;
 })(HACKLE || (HACKLE = {}));
+;var Util;
+(function (Util) {
+    function isIe6() {
+        if (getIeVersion() === '6') {
+            return true;
+        }
+        return false;
+    }
+    Util.isIe6 = isIe6;
+
+    function isIe7() {
+        if (getIeVersion() === '7') {
+            return true;
+        }
+        return false;
+    }
+    Util.isIe7 = isIe7;
+
+    function isIe8() {
+        if (getIeVersion() === '8') {
+            return true;
+        }
+        return false;
+    }
+    Util.isIe8 = isIe8;
+
+    function getIeVersion() {
+        if (navigator.appName.toUpperCase().indexOf('EXPLORER') != -1) {
+            return navigator.appVersion.toUpperCase().split(';')[1].charAt(6);
+        }
+        return null;
+    }
+
+    function hasPlaceholder() {
+        return 'placeholder' in document.createElement('input');
+    }
+    Util.hasPlaceholder = hasPlaceholder;
+
+    function isEmpty(str) {
+        if (str.length === 0) {
+            return true;
+        }
+        return false;
+    }
+    Util.isEmpty = isEmpty;
+})(Util || (Util = {}));
+;var DEMO;
+(function (DEMO) {
+    var HogeFactory = (function () {
+        function HogeFactory() {
+        }
+        HogeFactory.createHoge = function (id) {
+            return new DEMO.Model.Hoge(new DEMO.Model.HogeID(id));
+        };
+        return HogeFactory;
+    })();
+    DEMO.HogeFactory = HogeFactory;
+})(DEMO || (DEMO = {}));
+;var DEMO;
+(function (DEMO) {
+    var HogeRepository = (function () {
+        function HogeRepository() {
+        }
+        HogeRepository.prototype.resolve = function () {
+            return null;
+        };
+
+        HogeRepository.prototype.store = function () {
+            return null;
+        };
+
+        HogeRepository.prototype.delete = function () {
+            return null;
+        };
+        return HogeRepository;
+    })();
+    DEMO.HogeRepository = HogeRepository;
+})(DEMO || (DEMO = {}));
 ;var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -148,39 +267,103 @@ $(function () {
 };
 var DEMO;
 (function (DEMO) {
-    var VimeosView = (function (_super) {
-        __extends(VimeosView, _super);
-        function VimeosView() {
+    (function (Model) {
+        var HogeID = (function (_super) {
+            __extends(HogeID, _super);
+            function HogeID(value) {
+                _super.call(this, value);
+            }
+            return HogeID;
+        })(DDD.Identity);
+        Model.HogeID = HogeID;
+
+        var Hoge = (function (_super) {
+            __extends(Hoge, _super);
+            function Hoge(id) {
+                _super.call(this, id);
+            }
+            return Hoge;
+        })(DDD.Entity);
+        Model.Hoge = Hoge;
+    })(DEMO.Model || (DEMO.Model = {}));
+    var Model = DEMO.Model;
+})(DEMO || (DEMO = {}));
+;var DEMO;
+(function (DEMO) {
+    var HogeViewModel = (function () {
+        function HogeViewModel() {
+        }
+        return HogeViewModel;
+    })();
+    DEMO.HogeViewModel = HogeViewModel;
+})(DEMO || (DEMO = {}));
+;var DEMO;
+(function (DEMO) {
+    var Helper = (function () {
+        function Helper() {
+        }
+        Helper.hoge = function () {
+            return "";
+        };
+        return Helper;
+    })();
+    DEMO.Helper = Helper;
+
+    Handlebars.registerHelper('hoge', Helper.hoge);
+})(DEMO || (DEMO = {}));
+;var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var DEMO;
+(function (DEMO) {
+    var HogeView = (function (_super) {
+        __extends(HogeView, _super);
+        function HogeView(viewmodel) {
             _super.call(this);
-            this.tagName = 'article';
-            this.className = 'vimeos';
+            this.viewmodel = viewmodel;
+            this.tagName = 'div';
             this.events = {
-                "click .header": this.headerTest,
-                "click .cat": function (event) {
-                    event.preventDefault();
-                    console.log('cat');
-                }
+                "click .hoge": this.hogeEvent
             };
+
             this.reflectTagName();
             this.reflectAttribute();
             this.delegateEvents(this.events);
+            this.render();
         }
-        VimeosView.prototype.headerTest = function () {
-            console.log("click .header");
-        };
-
-        VimeosView.prototype.render = function () {
-            this.$el.append(this.renderTemplate());
+        HogeView.prototype.render = function () {
+            this.$el.append('hoge');
 
             return this;
         };
 
-        VimeosView.prototype.renderTemplate = function () {
-            var template = new HACKLE.HBSTemplate('hbs/vimeos.hbs');
-
-            return template.render({});
+        HogeView.prototype.hogeEvent = function () {
+            console.log('hoge');
         };
-        return VimeosView;
+        return HogeView;
     })(HACKLE.View);
-    DEMO.VimeosView = VimeosView;
+    DEMO.HogeView = HogeView;
+})(DEMO || (DEMO = {}));
+;var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var DEMO;
+(function (DEMO) {
+    var Layout = (function (_super) {
+        __extends(Layout, _super);
+        function Layout(viewCreateOptions) {
+            if (typeof viewCreateOptions === "undefined") { viewCreateOptions = {}; }
+            _super.call(this, viewCreateOptions);
+        }
+        Layout.prototype.display = function ($el) {
+        };
+        return Layout;
+    })(HACKLE.View);
+    DEMO.Layout = Layout;
 })(DEMO || (DEMO = {}));

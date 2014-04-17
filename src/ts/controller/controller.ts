@@ -1,14 +1,17 @@
-/// <reference path="../../../definitions/jquery.d.ts" />
-/// <reference path="../infrastructure/hackleview.ts" />
+/// <reference path="../views/layout.ts" />
+/// <reference path="../infrastructure/api.ts" />
 
-module HACKLE {
+module DEMO {
+
+    export interface IController {
+        layout: Layout;
+        promise: any;
+    }
 
     export class Controller {
+
+        ready() {}
+
     }
 
 }
-
-$(() => {
-    var vimeosView: DEMO.VimeosView = new DEMO.VimeosView();
-    $('#main').append(vimeosView.render().$el);
-});

@@ -1,36 +1,31 @@
-module VimeoAPI {
+/// <reference path="../../../definitions/jquery.d.ts" />
 
-    export class Videos {
+module Infra {
 
-        static responseFromVimeosOfUser(vimeoUserName: string) {
+    export class HogeAPI {
 
-            var vimeosAPIPath: string = 'http://vimeo.com/api/v2/'+ vimeoUserName.toString() +'/videos.json';
+        static resolve() {
 
-            var responseJSON: Object[];
+            var apiPath: string = HogeAPI.getApiPath();
 
-            var getVimeoJSONP = $.ajax({
-                type: 'get',
-                url: vimeosAPIPath,
-                dataType: 'json',
-                async: false
-            });
+            var promise = $.ajax({type: 'get', url: apiPath, dataType: 'json', async: true});
 
-            getVimeoJSONP.done(function(json) {
-                responseJSON = json;
-            });
-
-            getVimeoJSONP.fail(function(json) {
-                responseJSON = json;
-            });
-
-            return responseJSON;
+            return promise;
 
         }
-    
+
+        static getApiPath(): string {
+            return "";
+        }
+
+    }
+
+    export class Promise {
+
+        constructor() {
+            return HogeAPI.resolve();
+        }
+
     }
 
 }
-
-(function() {
-    console.log(VimeoAPI.Videos.responseFromVimeosOfUser('terjes'));
-})();
