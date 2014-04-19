@@ -28,7 +28,16 @@ module.exports = (grunt)->
         separator: ';'
 
     copy:
-      dist:
+
+      html:
+        files: [{
+          expand: true
+          cwd: 'src/html/'
+          src: ['**/*.html']
+          dest: 'build/'
+        }]
+
+      hbs:
         files: [{
           expand: true
           cwd: 'src/hbs/'

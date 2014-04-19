@@ -2,20 +2,20 @@
 
 module Infra {
 
-    export class HogeAPI {
+    export class GistsAPI {
 
         static resolve() {
 
-            var apiPath: string = HogeAPI.getApiPath();
+            var apiPath: string = GistsAPI.getApiPath();
 
-            var promise = $.ajax({type: 'get', url: apiPath, dataType: 'json', async: true});
+            var promise = $.ajax({type: 'get', url: apiPath, dataType: 'jsonp', async: true});
 
             return promise;
 
         }
 
         static getApiPath(): string {
-            return "";
+            return "https://api.github.com/gists";
         }
 
     }
@@ -23,7 +23,7 @@ module Infra {
     export class Promise {
 
         constructor() {
-            return HogeAPI.resolve();
+            return GistsAPI.resolve();
         }
 
     }

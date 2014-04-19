@@ -1,10 +1,11 @@
 /// <reference path="../infrastructure/ddd-base/entity.ts" />
+/// <reference path="../infrastructure/ddd-base/identity.ts" />
 
 module DEMO {
 
     export module Model {
 
-        export class HogeID extends DDD.Identity<string> {
+        export class OwnerID extends DDD.Identity<string> {
 
             constructor(value: string) {
                 super(value);
@@ -12,10 +13,9 @@ module DEMO {
 
         }
 
-        export class Hoge extends DDD.Entity<DDD.Identity<string>> {
+        export class Owner extends DDD.Entity<OwnerID> {
 
-            constructor(id: HogeID) {
-
+            constructor(id: OwnerID) {
                 super(id);
             }
 
