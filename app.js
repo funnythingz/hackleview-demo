@@ -23,8 +23,14 @@ var DEMO;
             this.index();
         }
         Controller.prototype.index = function () {
+            var layout = this.layout;
+
             this.promise.done(function (data) {
-                console.log(data);
+                var gistsVMFactory = new DEMO.GistsViewModelFactory(data);
+                var gistEntryVM = gistsVMFactory.createGistEntryViewModel();
+
+                var gistEntryView = new DEMO.GistEntryView(gistEntryVM);
+                layout.display(gistEntryView.$el);
             });
         };
         return Controller;
@@ -252,35 +258,33 @@ var DEMO;
 })(Util || (Util = {}));
 ;var DEMO;
 (function (DEMO) {
-    var GistFactory = (function () {
-        function GistFactory() {
+    var GistEntryFactory = (function () {
+        function GistEntryFactory() {
         }
-        GistFactory.createGist = function (id) {
-            return new DEMO.Model.Gist(new DEMO.Model.GistID(id));
+        GistEntryFactory.createGistEntry = function (data) {
+            var gistId = new DEMO.Model.GistEntryID(data.id);
+
+            var gist = new DEMO.Model.Gist(new DEMO.Model.GistID(data.id), new DEMO.Model.GistDescription(data.description), new DEMO.Model.GistUrl(data.html_url));
+
+            var owner = new DEMO.Model.Owner(new DEMO.Model.OwnerID(data.owner.id), new DEMO.Model.OwnerName(data.owner.login), new DEMO.Model.OwnerUrl(data.owner.html_url), new DEMO.Model.Avatar(data.owner.avatar_url));
+
+            return new DEMO.Model.GistEntry(gistId, gist, owner);
         };
-        return GistFactory;
+        return GistEntryFactory;
     })();
-    DEMO.GistFactory = GistFactory;
+    DEMO.GistEntryFactory = GistEntryFactory;
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
-    var GistRepository = (function () {
-        function GistRepository() {
+    var GistEntryRepository = (function () {
+        function GistEntryRepository() {
         }
-        GistRepository.prototype.resolve = function () {
-            return null;
+        GistEntryRepository.prototype.resolve = function (data) {
+            return DEMO.GistEntryFactory.createGistEntry(data);
         };
-
-        GistRepository.prototype.store = function () {
-            return null;
-        };
-
-        GistRepository.prototype.delete = function () {
-            return null;
-        };
-        return GistRepository;
+        return GistEntryRepository;
     })();
-    DEMO.GistRepository = GistRepository;
+    DEMO.GistEntryRepository = GistEntryRepository;
 })(DEMO || (DEMO = {}));
 ;var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -291,6 +295,30 @@ var DEMO;
 var DEMO;
 (function (DEMO) {
     (function (Model) {
+        var Name = (function () {
+            function Name(value) {
+                this.value = value;
+            }
+            return Name;
+        })();
+        Model.Name = Name;
+
+        var Url = (function () {
+            function Url(value) {
+                this.value = value;
+            }
+            return Url;
+        })();
+        Model.Url = Url;
+
+        var Description = (function () {
+            function Description(value) {
+                this.value = value;
+            }
+            return Description;
+        })();
+        Model.Description = Description;
+
         var GistID = (function (_super) {
             __extends(GistID, _super);
             function GistID(value) {
@@ -302,12 +330,108 @@ var DEMO;
 
         var Gist = (function (_super) {
             __extends(Gist, _super);
-            function Gist(id) {
+            function Gist(id, gistDescription, gistUrl) {
                 _super.call(this, id);
+                this.gistDescription = gistDescription;
+                this.gistUrl = gistUrl;
             }
             return Gist;
         })(DDD.Entity);
         Model.Gist = Gist;
+
+        var GistDescription = (function (_super) {
+            __extends(GistDescription, _super);
+            function GistDescription(value) {
+                _super.call(this, value);
+            }
+            return GistDescription;
+        })(Description);
+        Model.GistDescription = GistDescription;
+
+        var GistUrl = (function (_super) {
+            __extends(GistUrl, _super);
+            function GistUrl(value) {
+                _super.call(this, value);
+            }
+            return GistUrl;
+        })(Url);
+        Model.GistUrl = GistUrl;
+
+        var OwnerID = (function (_super) {
+            __extends(OwnerID, _super);
+            function OwnerID(value) {
+                _super.call(this, value);
+            }
+            return OwnerID;
+        })(DDD.Identity);
+        Model.OwnerID = OwnerID;
+
+        var Owner = (function (_super) {
+            __extends(Owner, _super);
+            function Owner(id, ownerName, ownerUrl, avatar) {
+                _super.call(this, id);
+                this.ownerName = ownerName;
+                this.ownerUrl = ownerUrl;
+                this.avatar = avatar;
+            }
+            return Owner;
+        })(DDD.Entity);
+        Model.Owner = Owner;
+
+        var OwnerName = (function (_super) {
+            __extends(OwnerName, _super);
+            function OwnerName(value) {
+                _super.call(this, value);
+            }
+            return OwnerName;
+        })(Name);
+        Model.OwnerName = OwnerName;
+
+        var OwnerUrl = (function (_super) {
+            __extends(OwnerUrl, _super);
+            function OwnerUrl(value) {
+                _super.call(this, value);
+            }
+            return OwnerUrl;
+        })(Url);
+        Model.OwnerUrl = OwnerUrl;
+
+        var GistEntryID = (function (_super) {
+            __extends(GistEntryID, _super);
+            function GistEntryID(value) {
+                _super.call(this, value);
+            }
+            return GistEntryID;
+        })(DDD.Identity);
+        Model.GistEntryID = GistEntryID;
+
+        var GistEntry = (function (_super) {
+            __extends(GistEntry, _super);
+            function GistEntry(id, gist, owner) {
+                _super.call(this, id);
+                this.gist = gist;
+                this.owner = owner;
+            }
+            return GistEntry;
+        })(DDD.Entity);
+        Model.GistEntry = GistEntry;
+
+        var Avatar = (function () {
+            function Avatar(avatarUrl) {
+                this.avatarUrl = avatarUrl;
+            }
+            return Avatar;
+        })();
+        Model.Avatar = Avatar;
+
+        var AvatarUrl = (function (_super) {
+            __extends(AvatarUrl, _super);
+            function AvatarUrl(value) {
+                _super.call(this, value);
+            }
+            return AvatarUrl;
+        })(Url);
+        Model.AvatarUrl = AvatarUrl;
 
         var AtDate = (function () {
             function AtDate(value) {
@@ -319,7 +443,6 @@ var DEMO;
             return AtDate;
         })();
         Model.AtDate = AtDate;
-        console.log(new AtDate("2014-04-19T03:45:44Z"));
 
         var CreatedAtDate = (function (_super) {
             __extends(CreatedAtDate, _super);
@@ -341,43 +464,29 @@ var DEMO;
     })(DEMO.Model || (DEMO.Model = {}));
     var Model = DEMO.Model;
 })(DEMO || (DEMO = {}));
-;var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var DEMO;
+;var DEMO;
 (function (DEMO) {
-    (function (Model) {
-        var OwnerID = (function (_super) {
-            __extends(OwnerID, _super);
-            function OwnerID(value) {
-                _super.call(this, value);
-            }
-            return OwnerID;
-        })(DDD.Identity);
-        Model.OwnerID = OwnerID;
-
-        var Owner = (function (_super) {
-            __extends(Owner, _super);
-            function Owner(id) {
-                _super.call(this, id);
-            }
-            return Owner;
-        })(DDD.Entity);
-        Model.Owner = Owner;
-    })(DEMO.Model || (DEMO.Model = {}));
-    var Model = DEMO.Model;
+    var GistEntryViewModel = (function () {
+        function GistEntryViewModel(gistEntry) {
+            this.gistEntry = gistEntry;
+        }
+        return GistEntryViewModel;
+    })();
+    DEMO.GistEntryViewModel = GistEntryViewModel;
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
-    var GistViewModel = (function () {
-        function GistViewModel() {
+    var GistsViewModelFactory = (function () {
+        function GistsViewModelFactory(args) {
+            this.args = args;
         }
-        return GistViewModel;
+        GistsViewModelFactory.prototype.createGistEntryViewModel = function () {
+            var gistEntry = DEMO.GistEntryFactory.createGistEntry(this.args.data[0]);
+            return new DEMO.GistEntryViewModel(gistEntry);
+        };
+        return GistsViewModelFactory;
     })();
-    DEMO.GistViewModel = GistViewModel;
+    DEMO.GistsViewModelFactory = GistsViewModelFactory;
 })(DEMO || (DEMO = {}));
 ;var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -387,9 +496,9 @@ var DEMO;
 };
 var DEMO;
 (function (DEMO) {
-    var GistView = (function (_super) {
-        __extends(GistView, _super);
-        function GistView(viewmodel) {
+    var GistEntryView = (function (_super) {
+        __extends(GistEntryView, _super);
+        function GistEntryView(viewmodel) {
             _super.call(this);
             this.viewmodel = viewmodel;
             this.tagName = 'div';
@@ -402,18 +511,18 @@ var DEMO;
             this.delegateEvents(this.events);
             this.render();
         }
-        GistView.prototype.render = function () {
+        GistEntryView.prototype.render = function () {
             this.$el.append('gist');
 
             return this;
         };
 
-        GistView.prototype.hogeEvent = function () {
+        GistEntryView.prototype.hogeEvent = function () {
             console.log('hoge');
         };
-        return GistView;
+        return GistEntryView;
     })(HACKLE.View);
-    DEMO.GistView = GistView;
+    DEMO.GistEntryView = GistEntryView;
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
