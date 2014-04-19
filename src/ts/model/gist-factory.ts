@@ -1,4 +1,4 @@
-/// <reference path="gists.ts" />
+/// <reference path="gist.ts" />
 
 module DEMO {
 

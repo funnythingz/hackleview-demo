@@ -1,7 +1,7 @@
 /// <reference path="../../../definitions/jquery.d.ts" />
 
-/// <reference path="gists.ts" />
-/// <reference path="gists-factory.ts" />
+/// <reference path="gist.ts" />
+/// <reference path="gist-factory.ts" />
 
 module DEMO {
 

@@ -295,12 +295,12 @@ var DEMO;
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
-    var GistsViewModel = (function () {
-        function GistsViewModel() {
+    var GistViewModel = (function () {
+        function GistViewModel() {
         }
-        return GistsViewModel;
+        return GistViewModel;
     })();
-    DEMO.GistsViewModel = GistsViewModel;
+    DEMO.GistViewModel = GistViewModel;
 })(DEMO || (DEMO = {}));
 ;var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -310,9 +310,9 @@ var DEMO;
 };
 var DEMO;
 (function (DEMO) {
-    var GistsView = (function (_super) {
-        __extends(GistsView, _super);
-        function GistsView(viewmodel) {
+    var GistView = (function (_super) {
+        __extends(GistView, _super);
+        function GistView(viewmodel) {
             _super.call(this);
             this.viewmodel = viewmodel;
             this.tagName = 'div';
@@ -325,18 +325,18 @@ var DEMO;
             this.delegateEvents(this.events);
             this.render();
         }
-        GistsView.prototype.render = function () {
-            this.$el.append('gists');
+        GistView.prototype.render = function () {
+            this.$el.append('gist');
 
             return this;
         };
 
-        GistsView.prototype.hogeEvent = function () {
+        GistView.prototype.hogeEvent = function () {
             console.log('hoge');
         };
-        return GistsView;
+        return GistView;
     })(HACKLE.View);
-    DEMO.GistsView = GistsView;
+    DEMO.GistView = GistView;
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
@@ -365,8 +365,10 @@ var DEMO;
         function Layout(viewCreateOptions) {
             if (typeof viewCreateOptions === "undefined") { viewCreateOptions = {}; }
             _super.call(this, viewCreateOptions);
+            this.$el = $('body');
         }
         Layout.prototype.display = function ($el) {
+            this.$el.append($el);
         };
         return Layout;
     })(HACKLE.View);

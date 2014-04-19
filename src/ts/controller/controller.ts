@@ -1,5 +1,5 @@
 /// <reference path="../views/layout.ts" />
-/// <reference path="../views/gists-view.ts" />
+/// <reference path="../views/gist-view.ts" />
 /// <reference path="../infrastructure/api.ts" />
 
 module DEMO {
