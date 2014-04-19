@@ -39,4 +39,20 @@ module Util {
         return false;
     }
 
+    export class DateSplitter {
+
+        static splitFullYear(date: Date): string {
+            return date.getFullYear().toString();
+        }
+
+        static splitMonth(date: Date): string {
+            return (date.getMonth() + 1).toString();
+        }
+
+        static splitDay(date: Date): string {
+            return date.getDate().toString();
+        }
+
+    }
+
 }

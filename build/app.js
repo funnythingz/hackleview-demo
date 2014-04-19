@@ -231,6 +231,24 @@ var DEMO;
         return false;
     }
     Util.isEmpty = isEmpty;
+
+    var DateSplitter = (function () {
+        function DateSplitter() {
+        }
+        DateSplitter.splitFullYear = function (date) {
+            return date.getFullYear().toString();
+        };
+
+        DateSplitter.splitMonth = function (date) {
+            return (date.getMonth() + 1).toString();
+        };
+
+        DateSplitter.splitDay = function (date) {
+            return date.getDate().toString();
+        };
+        return DateSplitter;
+    })();
+    Util.DateSplitter = DateSplitter;
 })(Util || (Util = {}));
 ;var DEMO;
 (function (DEMO) {
@@ -290,6 +308,65 @@ var DEMO;
             return Gist;
         })(DDD.Entity);
         Model.Gist = Gist;
+
+        var AtDate = (function () {
+            function AtDate(value) {
+                var date = new Date(value);
+                this.fullYear = Util.DateSplitter.splitFullYear(date);
+                this.month = Util.DateSplitter.splitMonth(date);
+                this.day = Util.DateSplitter.splitDay(date);
+            }
+            return AtDate;
+        })();
+        Model.AtDate = AtDate;
+        console.log(new AtDate("2014-04-19T03:45:44Z"));
+
+        var CreatedAtDate = (function (_super) {
+            __extends(CreatedAtDate, _super);
+            function CreatedAtDate(value) {
+                _super.call(this, value);
+            }
+            return CreatedAtDate;
+        })(AtDate);
+        Model.CreatedAtDate = CreatedAtDate;
+
+        var UpdatedAtDate = (function (_super) {
+            __extends(UpdatedAtDate, _super);
+            function UpdatedAtDate(value) {
+                _super.call(this, value);
+            }
+            return UpdatedAtDate;
+        })(AtDate);
+        Model.UpdatedAtDate = UpdatedAtDate;
+    })(DEMO.Model || (DEMO.Model = {}));
+    var Model = DEMO.Model;
+})(DEMO || (DEMO = {}));
+;var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var DEMO;
+(function (DEMO) {
+    (function (Model) {
+        var OwnerID = (function (_super) {
+            __extends(OwnerID, _super);
+            function OwnerID(value) {
+                _super.call(this, value);
+            }
+            return OwnerID;
+        })(DDD.Identity);
+        Model.OwnerID = OwnerID;
+
+        var Owner = (function (_super) {
+            __extends(Owner, _super);
+            function Owner(id) {
+                _super.call(this, id);
+            }
+            return Owner;
+        })(DDD.Entity);
+        Model.Owner = Owner;
     })(DEMO.Model || (DEMO.Model = {}));
     var Model = DEMO.Model;
 })(DEMO || (DEMO = {}));
