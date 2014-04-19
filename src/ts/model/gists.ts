@@ -4,7 +4,7 @@ module DEMO {
 
     export module Model {
 
-        export class HogeID extends DDD.Identity<string> {
+        export class GistID extends DDD.Identity<string> {
 
             constructor(value: string) {
                 super(value);
@@ -12,9 +12,9 @@ module DEMO {
 
         }
 
-        export class Hoge extends DDD.Entity<DDD.Identity<string>> {
+        export class Gist extends DDD.Entity<DDD.Identity<string>> {
 
-            constructor(id: HogeID) {
+            constructor(id: GistID) {
 
                 super(id);
             }

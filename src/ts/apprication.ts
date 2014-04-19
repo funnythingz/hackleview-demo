@@ -4,19 +4,15 @@ module DEMO {
 
     class Application {
 
-        constructor() {
-            this.ready();
-        }
-
-        private ready() {
-            var controller = new Controller();
-            controller.ready();
+        ready() {
+            var controller: Controller = new Controller();
         }
 
     }
 
     $(()=> {
-        new Application();
+        var demo: Application = new Application();
+        demo.ready();
     });
 
 }

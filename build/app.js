@@ -2,25 +2,30 @@ var DEMO;
 (function (DEMO) {
     var Application = (function () {
         function Application() {
-            this.ready();
         }
         Application.prototype.ready = function () {
             var controller = new DEMO.Controller();
-            controller.ready();
         };
         return Application;
     })();
 
     $(function () {
-        new Application();
+        var demo = new Application();
+        demo.ready();
     });
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
     var Controller = (function () {
         function Controller() {
+            this.layout = new DEMO.Layout();
+            this.promise = new Infra.Promise();
+            this.index();
         }
-        Controller.prototype.ready = function () {
+        Controller.prototype.index = function () {
+            this.promise.done(function (data) {
+                console.log(data);
+            });
         };
         return Controller;
     })();
@@ -28,27 +33,27 @@ var DEMO;
 })(DEMO || (DEMO = {}));
 ;var Infra;
 (function (Infra) {
-    var HogeAPI = (function () {
-        function HogeAPI() {
+    var GistsAPI = (function () {
+        function GistsAPI() {
         }
-        HogeAPI.resolve = function () {
-            var apiPath = HogeAPI.getApiPath();
+        GistsAPI.resolve = function () {
+            var apiPath = GistsAPI.getApiPath();
 
-            var promise = $.ajax({ type: 'get', url: apiPath, dataType: 'json', async: true });
+            var promise = $.ajax({ type: 'get', url: apiPath, dataType: 'jsonp', async: true });
 
             return promise;
         };
 
-        HogeAPI.getApiPath = function () {
-            return "";
+        GistsAPI.getApiPath = function () {
+            return "https://api.github.com/gists";
         };
-        return HogeAPI;
+        return GistsAPI;
     })();
-    Infra.HogeAPI = HogeAPI;
+    Infra.GistsAPI = GistsAPI;
 
     var Promise = (function () {
         function Promise() {
-            return HogeAPI.resolve();
+            return GistsAPI.resolve();
         }
         return Promise;
     })();
@@ -229,35 +234,35 @@ var DEMO;
 })(Util || (Util = {}));
 ;var DEMO;
 (function (DEMO) {
-    var HogeFactory = (function () {
-        function HogeFactory() {
+    var GistFactory = (function () {
+        function GistFactory() {
         }
-        HogeFactory.createHoge = function (id) {
-            return new DEMO.Model.Hoge(new DEMO.Model.HogeID(id));
+        GistFactory.createGist = function (id) {
+            return new DEMO.Model.Gist(new DEMO.Model.GistID(id));
         };
-        return HogeFactory;
+        return GistFactory;
     })();
-    DEMO.HogeFactory = HogeFactory;
+    DEMO.GistFactory = GistFactory;
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
-    var HogeRepository = (function () {
-        function HogeRepository() {
+    var GistRepository = (function () {
+        function GistRepository() {
         }
-        HogeRepository.prototype.resolve = function () {
+        GistRepository.prototype.resolve = function () {
             return null;
         };
 
-        HogeRepository.prototype.store = function () {
+        GistRepository.prototype.store = function () {
             return null;
         };
 
-        HogeRepository.prototype.delete = function () {
+        GistRepository.prototype.delete = function () {
             return null;
         };
-        return HogeRepository;
+        return GistRepository;
     })();
-    DEMO.HogeRepository = HogeRepository;
+    DEMO.GistRepository = GistRepository;
 })(DEMO || (DEMO = {}));
 ;var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -268,34 +273,70 @@ var DEMO;
 var DEMO;
 (function (DEMO) {
     (function (Model) {
-        var HogeID = (function (_super) {
-            __extends(HogeID, _super);
-            function HogeID(value) {
+        var GistID = (function (_super) {
+            __extends(GistID, _super);
+            function GistID(value) {
                 _super.call(this, value);
             }
-            return HogeID;
+            return GistID;
         })(DDD.Identity);
-        Model.HogeID = HogeID;
+        Model.GistID = GistID;
 
-        var Hoge = (function (_super) {
-            __extends(Hoge, _super);
-            function Hoge(id) {
+        var Gist = (function (_super) {
+            __extends(Gist, _super);
+            function Gist(id) {
                 _super.call(this, id);
             }
-            return Hoge;
+            return Gist;
         })(DDD.Entity);
-        Model.Hoge = Hoge;
+        Model.Gist = Gist;
     })(DEMO.Model || (DEMO.Model = {}));
     var Model = DEMO.Model;
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
-    var HogeViewModel = (function () {
-        function HogeViewModel() {
+    var GistsViewModel = (function () {
+        function GistsViewModel() {
         }
-        return HogeViewModel;
+        return GistsViewModel;
     })();
-    DEMO.HogeViewModel = HogeViewModel;
+    DEMO.GistsViewModel = GistsViewModel;
+})(DEMO || (DEMO = {}));
+;var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var DEMO;
+(function (DEMO) {
+    var GistsView = (function (_super) {
+        __extends(GistsView, _super);
+        function GistsView(viewmodel) {
+            _super.call(this);
+            this.viewmodel = viewmodel;
+            this.tagName = 'div';
+            this.events = {
+                "click .hoge": this.hogeEvent
+            };
+
+            this.reflectTagName();
+            this.reflectAttribute();
+            this.delegateEvents(this.events);
+            this.render();
+        }
+        GistsView.prototype.render = function () {
+            this.$el.append('gists');
+
+            return this;
+        };
+
+        GistsView.prototype.hogeEvent = function () {
+            console.log('hoge');
+        };
+        return GistsView;
+    })(HACKLE.View);
+    DEMO.GistsView = GistsView;
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
@@ -310,42 +351,6 @@ var DEMO;
     DEMO.Helper = Helper;
 
     Handlebars.registerHelper('hoge', Helper.hoge);
-})(DEMO || (DEMO = {}));
-;var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var DEMO;
-(function (DEMO) {
-    var HogeView = (function (_super) {
-        __extends(HogeView, _super);
-        function HogeView(viewmodel) {
-            _super.call(this);
-            this.viewmodel = viewmodel;
-            this.tagName = 'div';
-            this.events = {
-                "click .hoge": this.hogeEvent
-            };
-
-            this.reflectTagName();
-            this.reflectAttribute();
-            this.delegateEvents(this.events);
-            this.render();
-        }
-        HogeView.prototype.render = function () {
-            this.$el.append('hoge');
-
-            return this;
-        };
-
-        HogeView.prototype.hogeEvent = function () {
-            console.log('hoge');
-        };
-        return HogeView;
-    })(HACKLE.View);
-    DEMO.HogeView = HogeView;
 })(DEMO || (DEMO = {}));
 ;var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
