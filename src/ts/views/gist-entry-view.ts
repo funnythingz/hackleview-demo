@@ -2,15 +2,15 @@
 
 /// <reference path="../infrastructure/hackleview.ts" />
 
-/// <reference path="../viewmodel/gist-viewmodel.ts" />
+/// <reference path="../viewmodel/gist-entry-viewmodel.ts" />
 
 module DEMO {
 
-    export class GistView extends HACKLE.View {
+    export class GistEntryView extends HACKLE.View {
 
         tagName: string = 'div';
 
-        constructor(public viewmodel: GistViewModel) {
+        constructor(public viewmodel: GistEntryViewModel) {
             super();
 
             this.reflectTagName();
@@ -19,7 +19,7 @@ module DEMO {
             this.render();
         }
 
-        render(): GistView {
+        render(): GistEntryView {
 
             this.$el.append('gist');
 

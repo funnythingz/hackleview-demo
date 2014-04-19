@@ -32,22 +32,16 @@ module DEMO {
 
         }
 
-        export class OwnerName extends Name {
+        export class OwnerName {
 
             constructor(value: string) {
-
-                super(value);
-
             }
 
         }
 
-        export class OwnerUrl extends Url {
+        export class OwnerUrl {
 
             constructor(value: string) {
-
-                super(value);
-
             }
 
         }

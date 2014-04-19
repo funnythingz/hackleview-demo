@@ -1,6 +1,8 @@
-/// <reference path="../views/layout.ts" />
-/// <reference path="../views/gist-view.ts" />
 /// <reference path="../infrastructure/api.ts" />
+/// <reference path="../views/layout.ts" />
+/// <reference path="../views/gist-entry-view.ts" />
+/// <reference path="../viewmodel/gists-viewmodel-factory.ts" />
+/// <reference path="../viewmodel/gist-entry-viewmodel.ts" />
 
 module DEMO {
 
@@ -11,7 +13,7 @@ module DEMO {
 
     export class Controller implements IController {
 
-        layout = new Layout();
+        layout: Layout = new Layout();
         promise: any = new Infra.Promise();
 
         constructor() {
@@ -19,17 +21,17 @@ module DEMO {
         }
 
         index() {
+
             this.promise.done(function(data) {
                 console.log(data);
 
-                /**
-                var viewmodelFactory: GistViewModelFactory = new GistViewModel(data);
-                var viewmodel: GistViewModel = viewmodelFactory.createGistViewModel();
+                var gistsVMFactory: GistsViewModelFactory = new GistsViewModelFactory(data);
+                var gistEntryVM: GistEntryViewModel = gistsVMFactory.createGistEntryViewModel();
 
-                var gistView: GistView = new GistView(viewmodel);
-                this.layout.display(this.index(gistView.$el));
-                /**/
+                var gistEntryView: GistEntryView = new GistEntryView(gistEntryVM);
+                this.layout.display(this.index(gistEntryView.$el));
             });
+
         }
 
     }
