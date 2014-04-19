@@ -1,5 +1,6 @@
 /// <reference path="../../../definitions/jquery.d.ts" />
 
+/// <reference path="model.ts" />
 /// <reference path="gist-entry-factory.ts" />
 
 module DEMO {

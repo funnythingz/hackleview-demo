@@ -256,87 +256,6 @@ var DEMO;
     })();
     Util.DateSplitter = DateSplitter;
 })(Util || (Util = {}));
-;var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var DEMO;
-(function (DEMO) {
-    (function (Model) {
-        var AtDate = (function () {
-            function AtDate(value) {
-                var date = new Date(value);
-                this.fullYear = Util.DateSplitter.splitFullYear(date);
-                this.month = Util.DateSplitter.splitMonth(date);
-                this.day = Util.DateSplitter.splitDay(date);
-            }
-            return AtDate;
-        })();
-        Model.AtDate = AtDate;
-
-        var CreatedAtDate = (function (_super) {
-            __extends(CreatedAtDate, _super);
-            function CreatedAtDate(value) {
-                _super.call(this, value);
-            }
-            return CreatedAtDate;
-        })(AtDate);
-        Model.CreatedAtDate = CreatedAtDate;
-
-        var UpdatedAtDate = (function (_super) {
-            __extends(UpdatedAtDate, _super);
-            function UpdatedAtDate(value) {
-                _super.call(this, value);
-            }
-            return UpdatedAtDate;
-        })(AtDate);
-        Model.UpdatedAtDate = UpdatedAtDate;
-    })(DEMO.Model || (DEMO.Model = {}));
-    var Model = DEMO.Model;
-})(DEMO || (DEMO = {}));
-;var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var DEMO;
-(function (DEMO) {
-    (function (Model) {
-        var Avatar = (function () {
-            function Avatar(avatarUrl) {
-                this.avatarUrl = avatarUrl;
-            }
-            return Avatar;
-        })();
-        Model.Avatar = Avatar;
-
-        var AvatarUrl = (function (_super) {
-            __extends(AvatarUrl, _super);
-            function AvatarUrl(value) {
-                _super.call(this, value);
-            }
-            return AvatarUrl;
-        })(Model.Url);
-        Model.AvatarUrl = AvatarUrl;
-    })(DEMO.Model || (DEMO.Model = {}));
-    var Model = DEMO.Model;
-})(DEMO || (DEMO = {}));
-;var DEMO;
-(function (DEMO) {
-    (function (Model) {
-        var Description = (function () {
-            function Description(value) {
-                this.value = value;
-            }
-            return Description;
-        })();
-        Model.Description = Description;
-    })(DEMO.Model || (DEMO.Model = {}));
-    var Model = DEMO.Model;
-})(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
     var GistEntryFactory = (function () {
@@ -376,37 +295,30 @@ var DEMO;
 var DEMO;
 (function (DEMO) {
     (function (Model) {
-        var GistEntryID = (function (_super) {
-            __extends(GistEntryID, _super);
-            function GistEntryID(value) {
-                _super.call(this, value);
+        var Name = (function () {
+            function Name(value) {
+                this.value = value;
             }
-            return GistEntryID;
-        })(DDD.Identity);
-        Model.GistEntryID = GistEntryID;
+            return Name;
+        })();
+        Model.Name = Name;
 
-        var GistEntry = (function (_super) {
-            __extends(GistEntry, _super);
-            function GistEntry(id, gist, owner) {
-                _super.call(this, id);
-                this.gist = gist;
-                this.owner = owner;
+        var Url = (function () {
+            function Url(value) {
+                this.value = value;
             }
-            return GistEntry;
-        })(DDD.Entity);
-        Model.GistEntry = GistEntry;
-    })(DEMO.Model || (DEMO.Model = {}));
-    var Model = DEMO.Model;
-})(DEMO || (DEMO = {}));
-;var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var DEMO;
-(function (DEMO) {
-    (function (Model) {
+            return Url;
+        })();
+        Model.Url = Url;
+
+        var Description = (function () {
+            function Description(value) {
+                this.value = value;
+            }
+            return Description;
+        })();
+        Model.Description = Description;
+
         var GistID = (function (_super) {
             __extends(GistID, _super);
             function GistID(value) {
@@ -433,7 +345,7 @@ var DEMO;
                 _super.call(this, value);
             }
             return GistDescription;
-        })(Model.Description);
+        })(Description);
         Model.GistDescription = GistDescription;
 
         var GistUrl = (function (_super) {
@@ -442,33 +354,9 @@ var DEMO;
                 _super.call(this, value);
             }
             return GistUrl;
-        })(Model.Url);
+        })(Url);
         Model.GistUrl = GistUrl;
-    })(DEMO.Model || (DEMO.Model = {}));
-    var Model = DEMO.Model;
-})(DEMO || (DEMO = {}));
-;var DEMO;
-(function (DEMO) {
-    (function (Model) {
-        var Name = (function () {
-            function Name(value) {
-                this.value = value;
-            }
-            return Name;
-        })();
-        Model.Name = Name;
-    })(DEMO.Model || (DEMO.Model = {}));
-    var Model = DEMO.Model;
-})(DEMO || (DEMO = {}));
-;var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var DEMO;
-(function (DEMO) {
-    (function (Model) {
+
         var OwnerID = (function (_super) {
             __extends(OwnerID, _super);
             function OwnerID(value) {
@@ -490,32 +378,89 @@ var DEMO;
         })(DDD.Entity);
         Model.Owner = Owner;
 
-        var OwnerName = (function () {
+        var OwnerName = (function (_super) {
+            __extends(OwnerName, _super);
             function OwnerName(value) {
+                _super.call(this, value);
             }
             return OwnerName;
-        })();
+        })(Name);
         Model.OwnerName = OwnerName;
 
-        var OwnerUrl = (function () {
+        var OwnerUrl = (function (_super) {
+            __extends(OwnerUrl, _super);
             function OwnerUrl(value) {
+                _super.call(this, value);
             }
             return OwnerUrl;
-        })();
+        })(Url);
         Model.OwnerUrl = OwnerUrl;
-    })(DEMO.Model || (DEMO.Model = {}));
-    var Model = DEMO.Model;
-})(DEMO || (DEMO = {}));
-;var DEMO;
-(function (DEMO) {
-    (function (Model) {
-        var Url = (function () {
-            function Url(value) {
-                this.value = value;
+
+        var GistEntryID = (function (_super) {
+            __extends(GistEntryID, _super);
+            function GistEntryID(value) {
+                _super.call(this, value);
             }
-            return Url;
+            return GistEntryID;
+        })(DDD.Identity);
+        Model.GistEntryID = GistEntryID;
+
+        var GistEntry = (function (_super) {
+            __extends(GistEntry, _super);
+            function GistEntry(id, gist, owner) {
+                _super.call(this, id);
+                this.gist = gist;
+                this.owner = owner;
+            }
+            return GistEntry;
+        })(DDD.Entity);
+        Model.GistEntry = GistEntry;
+
+        var Avatar = (function () {
+            function Avatar(avatarUrl) {
+                this.avatarUrl = avatarUrl;
+            }
+            return Avatar;
         })();
-        Model.Url = Url;
+        Model.Avatar = Avatar;
+
+        var AvatarUrl = (function (_super) {
+            __extends(AvatarUrl, _super);
+            function AvatarUrl(value) {
+                _super.call(this, value);
+            }
+            return AvatarUrl;
+        })(Url);
+        Model.AvatarUrl = AvatarUrl;
+
+        var AtDate = (function () {
+            function AtDate(value) {
+                var date = new Date(value);
+                this.fullYear = Util.DateSplitter.splitFullYear(date);
+                this.month = Util.DateSplitter.splitMonth(date);
+                this.day = Util.DateSplitter.splitDay(date);
+            }
+            return AtDate;
+        })();
+        Model.AtDate = AtDate;
+
+        var CreatedAtDate = (function (_super) {
+            __extends(CreatedAtDate, _super);
+            function CreatedAtDate(value) {
+                _super.call(this, value);
+            }
+            return CreatedAtDate;
+        })(AtDate);
+        Model.CreatedAtDate = CreatedAtDate;
+
+        var UpdatedAtDate = (function (_super) {
+            __extends(UpdatedAtDate, _super);
+            function UpdatedAtDate(value) {
+                _super.call(this, value);
+            }
+            return UpdatedAtDate;
+        })(AtDate);
+        Model.UpdatedAtDate = UpdatedAtDate;
     })(DEMO.Model || (DEMO.Model = {}));
     var Model = DEMO.Model;
 })(DEMO || (DEMO = {}));

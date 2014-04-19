@@ -1,5 +1,4 @@
-/// <reference path="gist-entry.ts" />
-/// <reference path="owner.ts" />
+/// <reference path="model.ts" />
 
 module DEMO {
 

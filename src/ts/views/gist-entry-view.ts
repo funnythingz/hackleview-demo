@@ -1,7 +1,6 @@
 /// <reference path="../../../definitions/jquery.d.ts" />
 
 /// <reference path="../infrastructure/hackleview.ts" />
-
 /// <reference path="../viewmodel/gist-entry-viewmodel.ts" />
 
 module DEMO {
@@ -33,6 +32,7 @@ module DEMO {
         private hogeEvent() {
             console.log('hoge');
         }
+
     }
 
 }

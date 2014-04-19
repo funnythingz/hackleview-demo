@@ -1,4 +1,4 @@
-/// <reference path="../model/gist-entry.ts" />
+/// <reference path="../model/model.ts" />
 
 module DEMO {
 
