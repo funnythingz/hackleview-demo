@@ -23,6 +23,8 @@ var DEMO;
             this.index();
         }
         Controller.prototype.index = function () {
+            var layout = this.layout;
+
             this.promise.done(function (data) {
                 console.log(data);
 
@@ -30,7 +32,7 @@ var DEMO;
                 var gistEntryVM = gistsVMFactory.createGistEntryViewModel();
 
                 var gistEntryView = new DEMO.GistEntryView(gistEntryVM);
-                this.layout.display(this.index(gistEntryView.$el));
+                layout.display(gistEntryView.$el);
             });
         };
         return Controller;

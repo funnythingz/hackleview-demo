@@ -22,6 +22,8 @@ module DEMO {
 
         index() {
 
+            var layout = this.layout;
+
             this.promise.done(function(data) {
                 console.log(data);
 
@@ -29,7 +31,7 @@ module DEMO {
                 var gistEntryVM: GistEntryViewModel = gistsVMFactory.createGistEntryViewModel();
 
                 var gistEntryView: GistEntryView = new GistEntryView(gistEntryVM);
-                this.layout.display(this.index(gistEntryView.$el));
+                layout.display(gistEntryView.$el);
             });
 
         }
