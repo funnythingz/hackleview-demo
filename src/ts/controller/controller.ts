@@ -25,8 +25,6 @@ module DEMO {
             var layout = this.layout;
 
             this.promise.done(function(data) {
-                console.log(data);
-
                 var gistsVMFactory: GistsViewModelFactory = new GistsViewModelFactory(data);
                 var gistEntryVM: GistEntryViewModel = gistsVMFactory.createGistEntryViewModel();
 
