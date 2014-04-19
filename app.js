@@ -2,25 +2,30 @@ var DEMO;
 (function (DEMO) {
     var Application = (function () {
         function Application() {
-            this.ready();
         }
         Application.prototype.ready = function () {
             var controller = new DEMO.Controller();
-            controller.ready();
         };
         return Application;
     })();
 
     $(function () {
-        new Application();
+        var demo = new Application();
+        demo.ready();
     });
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
     var Controller = (function () {
         function Controller() {
+            this.layout = new DEMO.Layout();
+            this.promise = new Infra.Promise();
+            this.index();
         }
-        Controller.prototype.ready = function () {
+        Controller.prototype.index = function () {
+            this.promise.done(function (data) {
+                console.log(data);
+            });
         };
         return Controller;
     })();
@@ -28,27 +33,27 @@ var DEMO;
 })(DEMO || (DEMO = {}));
 ;var Infra;
 (function (Infra) {
-    var HogeAPI = (function () {
-        function HogeAPI() {
+    var GistsAPI = (function () {
+        function GistsAPI() {
         }
-        HogeAPI.resolve = function () {
-            var apiPath = HogeAPI.getApiPath();
+        GistsAPI.resolve = function () {
+            var apiPath = GistsAPI.getApiPath();
 
-            var promise = $.ajax({ type: 'get', url: apiPath, dataType: 'json', async: true });
+            var promise = $.ajax({ type: 'get', url: apiPath, dataType: 'jsonp', async: true });
 
             return promise;
         };
 
-        HogeAPI.getApiPath = function () {
-            return "";
+        GistsAPI.getApiPath = function () {
+            return "https://api.github.com/gists";
         };
-        return HogeAPI;
+        return GistsAPI;
     })();
-    Infra.HogeAPI = HogeAPI;
+    Infra.GistsAPI = GistsAPI;
 
     var Promise = (function () {
         function Promise() {
-            return HogeAPI.resolve();
+            return GistsAPI.resolve();
         }
         return Promise;
     })();
@@ -226,38 +231,56 @@ var DEMO;
         return false;
     }
     Util.isEmpty = isEmpty;
+
+    var DateSplitter = (function () {
+        function DateSplitter() {
+        }
+        DateSplitter.splitFullYear = function (date) {
+            return date.getFullYear().toString();
+        };
+
+        DateSplitter.splitMonth = function (date) {
+            return (date.getMonth() + 1).toString();
+        };
+
+        DateSplitter.splitDay = function (date) {
+            return date.getDate().toString();
+        };
+        return DateSplitter;
+    })();
+    Util.DateSplitter = DateSplitter;
 })(Util || (Util = {}));
 ;var DEMO;
 (function (DEMO) {
-    var HogeFactory = (function () {
-        function HogeFactory() {
+    var GistFactory = (function () {
+        function GistFactory() {
         }
-        HogeFactory.createHoge = function (id) {
-            return new DEMO.Model.Hoge(new DEMO.Model.HogeID(id));
+        GistFactory.createGist = function (id) {
+            return new DEMO.Model.Gist(new DEMO.Model.GistID(id));
         };
-        return HogeFactory;
+        return GistFactory;
     })();
-    DEMO.HogeFactory = HogeFactory;
+    DEMO.GistFactory = GistFactory;
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
-    var HogeRepository = (function () {
-        function HogeRepository() {
+    var GistRepository = (function () {
+        function GistRepository() {
         }
-        HogeRepository.prototype.resolve = function () {
+        GistRepository.prototype.resolve = function () {
             return null;
         };
 
-        HogeRepository.prototype.store = function () {
+        GistRepository.prototype.store = function () {
             return null;
         };
 
-        HogeRepository.prototype.delete = function () {
+        GistRepository.prototype.delete = function () {
             return null;
         };
-        return HogeRepository;
+        return GistRepository;
     })();
-    DEMO.HogeRepository = HogeRepository;
+    DEMO.GistRepository = GistRepository;
 })(DEMO || (DEMO = {}));
 ;var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -268,34 +291,129 @@ var DEMO;
 var DEMO;
 (function (DEMO) {
     (function (Model) {
-        var HogeID = (function (_super) {
-            __extends(HogeID, _super);
-            function HogeID(value) {
+        var GistID = (function (_super) {
+            __extends(GistID, _super);
+            function GistID(value) {
                 _super.call(this, value);
             }
-            return HogeID;
+            return GistID;
         })(DDD.Identity);
-        Model.HogeID = HogeID;
+        Model.GistID = GistID;
 
-        var Hoge = (function (_super) {
-            __extends(Hoge, _super);
-            function Hoge(id) {
+        var Gist = (function (_super) {
+            __extends(Gist, _super);
+            function Gist(id) {
                 _super.call(this, id);
             }
-            return Hoge;
+            return Gist;
         })(DDD.Entity);
-        Model.Hoge = Hoge;
+        Model.Gist = Gist;
+
+        var AtDate = (function () {
+            function AtDate(value) {
+                var date = new Date(value);
+                this.fullYear = Util.DateSplitter.splitFullYear(date);
+                this.month = Util.DateSplitter.splitMonth(date);
+                this.day = Util.DateSplitter.splitDay(date);
+            }
+            return AtDate;
+        })();
+        Model.AtDate = AtDate;
+        console.log(new AtDate("2014-04-19T03:45:44Z"));
+
+        var CreatedAtDate = (function (_super) {
+            __extends(CreatedAtDate, _super);
+            function CreatedAtDate(value) {
+                _super.call(this, value);
+            }
+            return CreatedAtDate;
+        })(AtDate);
+        Model.CreatedAtDate = CreatedAtDate;
+
+        var UpdatedAtDate = (function (_super) {
+            __extends(UpdatedAtDate, _super);
+            function UpdatedAtDate(value) {
+                _super.call(this, value);
+            }
+            return UpdatedAtDate;
+        })(AtDate);
+        Model.UpdatedAtDate = UpdatedAtDate;
+    })(DEMO.Model || (DEMO.Model = {}));
+    var Model = DEMO.Model;
+})(DEMO || (DEMO = {}));
+;var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var DEMO;
+(function (DEMO) {
+    (function (Model) {
+        var OwnerID = (function (_super) {
+            __extends(OwnerID, _super);
+            function OwnerID(value) {
+                _super.call(this, value);
+            }
+            return OwnerID;
+        })(DDD.Identity);
+        Model.OwnerID = OwnerID;
+
+        var Owner = (function (_super) {
+            __extends(Owner, _super);
+            function Owner(id) {
+                _super.call(this, id);
+            }
+            return Owner;
+        })(DDD.Entity);
+        Model.Owner = Owner;
     })(DEMO.Model || (DEMO.Model = {}));
     var Model = DEMO.Model;
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
-    var HogeViewModel = (function () {
-        function HogeViewModel() {
+    var GistViewModel = (function () {
+        function GistViewModel() {
         }
-        return HogeViewModel;
+        return GistViewModel;
     })();
-    DEMO.HogeViewModel = HogeViewModel;
+    DEMO.GistViewModel = GistViewModel;
+})(DEMO || (DEMO = {}));
+;var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var DEMO;
+(function (DEMO) {
+    var GistView = (function (_super) {
+        __extends(GistView, _super);
+        function GistView(viewmodel) {
+            _super.call(this);
+            this.viewmodel = viewmodel;
+            this.tagName = 'div';
+            this.events = {
+                "click .hoge": this.hogeEvent
+            };
+
+            this.reflectTagName();
+            this.reflectAttribute();
+            this.delegateEvents(this.events);
+            this.render();
+        }
+        GistView.prototype.render = function () {
+            this.$el.append('gist');
+
+            return this;
+        };
+
+        GistView.prototype.hogeEvent = function () {
+            console.log('hoge');
+        };
+        return GistView;
+    })(HACKLE.View);
+    DEMO.GistView = GistView;
 })(DEMO || (DEMO = {}));
 ;var DEMO;
 (function (DEMO) {
@@ -319,49 +437,15 @@ var DEMO;
 };
 var DEMO;
 (function (DEMO) {
-    var HogeView = (function (_super) {
-        __extends(HogeView, _super);
-        function HogeView(viewmodel) {
-            _super.call(this);
-            this.viewmodel = viewmodel;
-            this.tagName = 'div';
-            this.events = {
-                "click .hoge": this.hogeEvent
-            };
-
-            this.reflectTagName();
-            this.reflectAttribute();
-            this.delegateEvents(this.events);
-            this.render();
-        }
-        HogeView.prototype.render = function () {
-            this.$el.append('hoge');
-
-            return this;
-        };
-
-        HogeView.prototype.hogeEvent = function () {
-            console.log('hoge');
-        };
-        return HogeView;
-    })(HACKLE.View);
-    DEMO.HogeView = HogeView;
-})(DEMO || (DEMO = {}));
-;var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var DEMO;
-(function (DEMO) {
     var Layout = (function (_super) {
         __extends(Layout, _super);
         function Layout(viewCreateOptions) {
             if (typeof viewCreateOptions === "undefined") { viewCreateOptions = {}; }
             _super.call(this, viewCreateOptions);
+            this.$el = $('body');
         }
         Layout.prototype.display = function ($el) {
+            this.$el.append($el);
         };
         return Layout;
     })(HACKLE.View);
