@@ -106,6 +106,7 @@ var DEMO;
             if (typeof viewCreateOptions === "undefined") { viewCreateOptions = {}; }
             this.tagName = 'div';
             this.attributes = {};
+            this.events = {};
             this.tagName = viewCreateOptions.tagName || 'div';
             this.id = viewCreateOptions.id || '';
             this.className = viewCreateOptions.className || '';
@@ -142,23 +143,44 @@ var DEMO;
 
         View.prototype.delegateEvents = function (events) {
             var _this = this;
-            $.map(events, function (eventMethod, eventWithElement) {
-                var eventElementPair = _this.splitEventWithElement(eventWithElement);
-                _this.$el.on.call(_this.$el, eventElementPair.eventName, eventElementPair.selector, eventMethod);
-            });
-            return this;
-        };
+            $.map(events, function (eventMethodWithData, eventWithSelector) {
+                var splitEventMethodWithData = new SplitEventMethodWithData(eventMethodWithData);
 
-        View.prototype.splitEventWithElement = function (eventWithElement) {
-            var resultPair = eventWithElement.split(' ', 2);
-            return {
-                'eventName': resultPair[0],
-                'selector': resultPair[1]
-            };
+                var eventAndSelectorPair = splitEventWithSelector(eventWithSelector);
+
+                _this.$el.on.call(_this.$el, eventAndSelectorPair.eventName, eventAndSelectorPair.selector, splitEventMethodWithData.data, splitEventMethodWithData.method);
+            });
+
+            return this;
         };
         return View;
     })();
     HACKLE.View = View;
+
+    function splitEventWithSelector(eventWithSelector) {
+        var resultPair = eventWithSelector.split(' ');
+
+        var eventName = resultPair.shift();
+        var selector = resultPair.join(' ');
+
+        return {
+            'eventName': eventName,
+            'selector': selector
+        };
+    }
+
+    var SplitEventMethodWithData = (function () {
+        function SplitEventMethodWithData(methodWithData) {
+            this.data = null;
+            if (typeof methodWithData === 'object') {
+                this.method = methodWithData[0];
+                this.data = methodWithData[1];
+            } else {
+                this.method = methodWithData;
+            }
+        }
+        return SplitEventMethodWithData;
+    })();
 
     var HBSTemplate = (function () {
         function HBSTemplate(hbsName) {
@@ -186,6 +208,21 @@ var DEMO;
         return HBSTemplate;
     })();
     HACKLE.HBSTemplate = HBSTemplate;
+
+    var HBSTemplateFromString = (function () {
+        function HBSTemplateFromString(hbs) {
+            this.hbs = hbs;
+        }
+        HBSTemplateFromString.prototype.render = function (data) {
+            if (typeof data === "undefined") { data = {}; }
+            var template = Handlebars.compile(this.hbs);
+            var resultHTML = template(data);
+
+            return resultHTML;
+        };
+        return HBSTemplateFromString;
+    })();
+    HACKLE.HBSTemplateFromString = HBSTemplateFromString;
 
     function isJQuery($that) {
         return $that instanceof jQuery;
@@ -501,9 +538,10 @@ var DEMO;
         function GistEntryView(viewmodel) {
             _super.call(this);
             this.viewmodel = viewmodel;
-            this.tagName = 'div';
+            this.tagName = 'section';
+            this.className = 'unit';
             this.events = {
-                "click .owner": [this.jumpToOwnerPage, { value: 'hoge' }]
+                "click .owner": [this.jumpToOwnerPage, this.viewmodel.gistEntry.owner.ownerUrl.value]
             };
 
             this.reflectTagName();
@@ -517,8 +555,8 @@ var DEMO;
             return this;
         };
 
-        GistEntryView.prototype.jumpToOwnerPage = function (event) {
-            console.log(event);
+        GistEntryView.prototype.jumpToOwnerPage = function (event, data) {
+            location.href = event.data;
         };
 
         GistEntryView.prototype.renderTemplate = function () {

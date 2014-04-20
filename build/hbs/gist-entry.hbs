@@ -1,16 +1,14 @@
-<section class="unit">
-    <article class="cassette" id="gist-{{identity.value}}">
-        <div class="flex">
-            <div class="item">
-                <figure id="owner-{{owner.identity.value}}" class="owner">
-                    <img src="{{owner.avatar.avatarUrl}}" class="avatar">
-                    <figcaption>{{owner.ownerName.value}}</figcaption>
-                </figure>
-            </div>
-            <div class="item">
-                <p class="description">{{gist.gistDescription.value}}</p>
-                <p class="gist"><a href="{{gist.gistUrl.value}}">{{gist.gistUrl.value}}</a></p>
-            </div>
+<article class="cassette" id="gist-{{identity.value}}">
+    <div class="flex">
+        <div class="item">
+            <figure id="owner-{{owner.identity.value}}" class="owner">
+                <img src="{{owner.avatar.avatarUrl}}" class="avatar">
+                <figcaption>{{owner.ownerName.value}}</figcaption>
+            </figure>
         </div>
-    </article>
-</section>
+        <div class="item">
+            <p class="description">{{gist.gistDescription.value}}</p>
+            <p class="gist"><a href="{{gist.gistUrl.value}}">{{gist.gistUrl.value}}</a></p>
+        </div>
+    </div>
+</article>

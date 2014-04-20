@@ -11,11 +11,6 @@ module HACKLE {
         attributes?: Object;
     }
 
-    export interface IEventWithSelector {
-        eventName: string;
-        selector: string;
-    }
-
     export class View {
 
         tagName: string = 'div';
@@ -37,6 +32,8 @@ module HACKLE {
         render(): View {
             return this;
         }
+
+        events = {}
 
         reflectTagName() {
             this.$el = $('<' + this.tagName + '>');
@@ -63,22 +60,55 @@ module HACKLE {
         }
 
         delegateEvents(events?: Object): View {
-            $.map(events, (eventMethod, eventWithElement) => {
-                var eventElementPair = this.splitEventWithElement(eventWithElement);
+            $.map(events, (eventMethodWithData, eventWithSelector) => {
+
+                var splitEventMethodWithData = new SplitEventMethodWithData(eventMethodWithData);
+
+                var eventAndSelectorPair = splitEventWithSelector(eventWithSelector);
+
                 this.$el.on.call(this.$el,
-                                 eventElementPair.eventName,
-                                 eventElementPair.selector,
-                                 eventMethod);
+                                 eventAndSelectorPair.eventName,
+                                 eventAndSelectorPair.selector,
+                                 splitEventMethodWithData.data,
+                                 splitEventMethodWithData.method);
+
             });
+
             return this;
         }
 
-        private splitEventWithElement(eventWithElement): IEventWithSelector {
-            var resultPair = eventWithElement.split(' ', 2);
-            return {
-                'eventName': resultPair[0],
-                'selector':  resultPair[1]
+    }
+
+    interface IEventWithSelector {
+        eventName: string;
+        selector: string;
+    }
+
+    function splitEventWithSelector(eventWithSelector): IEventWithSelector {
+        var resultPair: string[] = eventWithSelector.split(' ');
+
+        var eventName: string = resultPair.shift();
+        var selector: string = resultPair.join(' ');
+
+        return {
+            'eventName': eventName,
+            'selector':  selector
+        }
+    }
+
+    class SplitEventMethodWithData {
+
+        method: any;
+        data: any = null;
+
+        constructor(methodWithData) {
+            if(typeof methodWithData === 'object') {
+                this.method = methodWithData[0];
+                this.data = methodWithData[1];
+            } else {
+                this.method = methodWithData;
             }
+
         }
 
     }
@@ -102,6 +132,19 @@ module HACKLE {
                 var template = Handlebars.compile(hbs);
                 resultHTML = template(data);
             });
+
+            return resultHTML;
+        }
+
+    }
+
+    export class HBSTemplateFromString {
+
+        constructor(private hbs: string) {}
+
+        render(data: Object = {}): string {
+            var template = Handlebars.compile(this.hbs);
+            var resultHTML: string = template(data);
 
             return resultHTML;
         }
