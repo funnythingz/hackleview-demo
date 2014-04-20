@@ -577,15 +577,13 @@ var DEMO;
         GistEntryListView.prototype.renderFooterTemplate = function () {
             var template = new HACKLE.HBSTemplate('hbs/footer.hbs');
 
-            return template.render({ author: 'funnythingz', authorUrl: '//github.com/funnythingz' });
+            return template.render({ author: 'funnythingz' });
         };
 
         GistEntryListView.prototype.renderGistEntryListView = function () {
-            var gistEntryListView = $.map(this.viewmodels, function (viewmodel, key) {
+            return $.map(this.viewmodels, function (viewmodel, key) {
                 return new DEMO.GistEntryView(viewmodel);
             });
-
-            return gistEntryListView;
         };
         return GistEntryListView;
     })(HACKLE.View);
