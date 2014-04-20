@@ -41,15 +41,13 @@ module DEMO {
         private renderFooterTemplate(): string {
             var template = new HACKLE.HBSTemplate('hbs/footer.hbs');
 
-            return template.render({author: 'funnythingz', authorUrl: '//github.com/funnythingz'});
+            return template.render({author: 'funnythingz'});
         }
 
         private renderGistEntryListView(): GistEntryView[] {
-            var gistEntryListView: GistEntryView[] = $.map(this.viewmodels, function(viewmodel, key) {
+            return $.map(this.viewmodels, function(viewmodel, key) {
                 return new GistEntryView(viewmodel)
             });
-
-            return gistEntryListView;
         }
 
     }
