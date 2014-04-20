@@ -7,8 +7,8 @@ module DEMO {
 
     export class GistEntryView extends HACKLE.View {
 
-        tagName: string = 'section';
-        className: string = 'unit';
+        tagName: string = 'article';
+        className: string = 'cassette';
 
         constructor(public viewmodel: GistEntryViewModel) {
             super();

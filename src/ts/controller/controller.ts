@@ -26,10 +26,10 @@ module DEMO {
 
             this.promise.done(function(data) {
                 var gistsVMFactory: GistsViewModelFactory = new GistsViewModelFactory(data);
-                var gistEntryVM: GistEntryViewModel = gistsVMFactory.createGistEntryViewModel();
+                var gistsEntryVM: GistEntryViewModel[] = gistsVMFactory.createGistEntryListViewModel();
 
-                var gistEntryView: GistEntryView = new GistEntryView(gistEntryVM);
-                layout.display(gistEntryView.$el);
+                var gistEntryListView: GistEntryListView = new GistEntryListView(gistsEntryVM);
+                layout.display(gistEntryListView.$el);
             });
 
         }

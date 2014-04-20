@@ -27,10 +27,10 @@ var DEMO;
 
             this.promise.done(function (data) {
                 var gistsVMFactory = new DEMO.GistsViewModelFactory(data);
-                var gistEntryVM = gistsVMFactory.createGistEntryViewModel();
+                var gistsEntryVM = gistsVMFactory.createGistEntryListViewModel();
 
-                var gistEntryView = new DEMO.GistEntryView(gistEntryVM);
-                layout.display(gistEntryView.$el);
+                var gistEntryListView = new DEMO.GistEntryListView(gistsEntryVM);
+                layout.display(gistEntryListView.$el);
             });
         };
         return Controller;
@@ -521,9 +521,60 @@ var DEMO;
             var gistEntry = DEMO.GistEntryFactory.createGistEntry(this.args.data[0]);
             return new DEMO.GistEntryViewModel(gistEntry);
         };
+
+        GistsViewModelFactory.prototype.createGistEntryListViewModel = function () {
+            var gistsEntryVM = [];
+
+            $.map(this.args.data, function (obj, key) {
+                gistsEntryVM.push(new DEMO.GistEntryViewModel(DEMO.GistEntryFactory.createGistEntry(obj)));
+            });
+
+            return gistsEntryVM;
+        };
         return GistsViewModelFactory;
     })();
     DEMO.GistsViewModelFactory = GistsViewModelFactory;
+})(DEMO || (DEMO = {}));
+;var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var DEMO;
+(function (DEMO) {
+    var GistEntryListView = (function (_super) {
+        __extends(GistEntryListView, _super);
+        function GistEntryListView(viewmodels) {
+            _super.call(this);
+            this.viewmodels = viewmodels;
+            this.tagName = 'section';
+            this.className = 'unit';
+
+            this.reflectTagName();
+            this.reflectAttribute();
+            this.render();
+        }
+        GistEntryListView.prototype.render = function () {
+            var gistEntryListView = this;
+
+            $.each(this.renderGistEntryListView(), function () {
+                gistEntryListView.$el.append(this.$el);
+            });
+
+            return this;
+        };
+
+        GistEntryListView.prototype.renderGistEntryListView = function () {
+            var gistEntryListView = $.map(this.viewmodels, function (viewmodel, key) {
+                return new DEMO.GistEntryView(viewmodel);
+            });
+
+            return gistEntryListView;
+        };
+        return GistEntryListView;
+    })(HACKLE.View);
+    DEMO.GistEntryListView = GistEntryListView;
 })(DEMO || (DEMO = {}));
 ;var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -538,8 +589,8 @@ var DEMO;
         function GistEntryView(viewmodel) {
             _super.call(this);
             this.viewmodel = viewmodel;
-            this.tagName = 'section';
-            this.className = 'unit';
+            this.tagName = 'article';
+            this.className = 'cassette';
             this.events = {
                 "click .owner": [this.jumpToOwnerPage, this.viewmodel.gistEntry.owner.ownerUrl.value]
             };

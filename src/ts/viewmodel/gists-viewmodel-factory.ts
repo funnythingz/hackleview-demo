@@ -15,6 +15,18 @@ module DEMO {
             return new GistEntryViewModel(gistEntry);
         }
 
+        createGistEntryListViewModel(): GistEntryViewModel[] {
+            var gistsEntryVM: GistEntryViewModel[] = [];
+
+            $.map(this.args.data, function(obj, key) {
+                gistsEntryVM.push(
+                    new GistEntryViewModel(GistEntryFactory.createGistEntry(obj))
+                );
+            });
+
+            return gistsEntryVM;
+        }
+
     }
 
 
