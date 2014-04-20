@@ -20,13 +20,28 @@ module DEMO {
 
         render(): GistEntryListView {
 
-            var gistEntryListView = this;
+            this.$el.append(this.renderHeaderTemplate());
 
+            var gistEntryListView = this;
             $.each(this.renderGistEntryListView(), function() {
                 gistEntryListView.$el.append(this.$el);
             });
 
+            this.$el.append(this.renderFooterTemplate());
+
             return this;
+        }
+
+        private renderHeaderTemplate(): string {
+            var template = new HACKLE.HBSTemplate('hbs/header.hbs');
+
+            return template.render({title: 'update Gists'});
+        }
+
+        private renderFooterTemplate(): string {
+            var template = new HACKLE.HBSTemplate('hbs/footer.hbs');
+
+            return template.render({author: 'funnythingz', authorUrl: '//github.com/funnythingz'});
         }
 
         private renderGistEntryListView(): GistEntryView[] {

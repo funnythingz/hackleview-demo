@@ -556,13 +556,28 @@ var DEMO;
             this.render();
         }
         GistEntryListView.prototype.render = function () {
-            var gistEntryListView = this;
+            this.$el.append(this.renderHeaderTemplate());
 
+            var gistEntryListView = this;
             $.each(this.renderGistEntryListView(), function () {
                 gistEntryListView.$el.append(this.$el);
             });
 
+            this.$el.append(this.renderFooterTemplate());
+
             return this;
+        };
+
+        GistEntryListView.prototype.renderHeaderTemplate = function () {
+            var template = new HACKLE.HBSTemplate('hbs/header.hbs');
+
+            return template.render({ title: 'update Gists' });
+        };
+
+        GistEntryListView.prototype.renderFooterTemplate = function () {
+            var template = new HACKLE.HBSTemplate('hbs/footer.hbs');
+
+            return template.render({ author: 'funnythingz', authorUrl: '//github.com/funnythingz' });
         };
 
         GistEntryListView.prototype.renderGistEntryListView = function () {
