@@ -27,10 +27,10 @@ var DEMO;
 
             this.promise.done(function (data) {
                 var gistsVMFactory = new DEMO.GistsViewModelFactory(data);
-                var gistEntryVM = gistsVMFactory.createGistEntryViewModel();
+                var gistsEntryVM = gistsVMFactory.createGistEntryListViewModel();
 
-                var gistEntryView = new DEMO.GistEntryView(gistEntryVM);
-                layout.display(gistEntryView.$el);
+                var gistEntryListView = new DEMO.GistEntryListView(gistsEntryVM);
+                layout.display(gistEntryListView.$el);
             });
         };
         return Controller;
@@ -106,6 +106,7 @@ var DEMO;
             if (typeof viewCreateOptions === "undefined") { viewCreateOptions = {}; }
             this.tagName = 'div';
             this.attributes = {};
+            this.events = {};
             this.tagName = viewCreateOptions.tagName || 'div';
             this.id = viewCreateOptions.id || '';
             this.className = viewCreateOptions.className || '';
@@ -142,23 +143,44 @@ var DEMO;
 
         View.prototype.delegateEvents = function (events) {
             var _this = this;
-            $.map(events, function (eventMethod, eventWithElement) {
-                var eventElementPair = _this.splitEventWithElement(eventWithElement);
-                _this.$el.on.call(_this.$el, eventElementPair.eventName, eventElementPair.selector, eventMethod);
-            });
-            return this;
-        };
+            $.map(events, function (eventMethodWithData, eventWithSelector) {
+                var splitEventMethodWithData = new SplitEventMethodWithData(eventMethodWithData);
 
-        View.prototype.splitEventWithElement = function (eventWithElement) {
-            var resultPair = eventWithElement.split(' ', 2);
-            return {
-                'eventName': resultPair[0],
-                'selector': resultPair[1]
-            };
+                var eventAndSelectorPair = splitEventWithSelector(eventWithSelector);
+
+                _this.$el.on.call(_this.$el, eventAndSelectorPair.eventName, eventAndSelectorPair.selector, splitEventMethodWithData.data, splitEventMethodWithData.method);
+            });
+
+            return this;
         };
         return View;
     })();
     HACKLE.View = View;
+
+    function splitEventWithSelector(eventWithSelector) {
+        var resultPair = eventWithSelector.split(' ');
+
+        var eventName = resultPair.shift();
+        var selector = resultPair.join(' ');
+
+        return {
+            'eventName': eventName,
+            'selector': selector
+        };
+    }
+
+    var SplitEventMethodWithData = (function () {
+        function SplitEventMethodWithData(methodWithData) {
+            this.data = null;
+            if (typeof methodWithData === 'object') {
+                this.method = methodWithData[0];
+                this.data = methodWithData[1];
+            } else {
+                this.method = methodWithData;
+            }
+        }
+        return SplitEventMethodWithData;
+    })();
 
     var HBSTemplate = (function () {
         function HBSTemplate(hbsName) {
@@ -186,6 +208,21 @@ var DEMO;
         return HBSTemplate;
     })();
     HACKLE.HBSTemplate = HBSTemplate;
+
+    var HBSTemplateFromString = (function () {
+        function HBSTemplateFromString(hbs) {
+            this.hbs = hbs;
+        }
+        HBSTemplateFromString.prototype.render = function (data) {
+            if (typeof data === "undefined") { data = {}; }
+            var template = Handlebars.compile(this.hbs);
+            var resultHTML = template(data);
+
+            return resultHTML;
+        };
+        return HBSTemplateFromString;
+    })();
+    HACKLE.HBSTemplateFromString = HBSTemplateFromString;
 
     function isJQuery($that) {
         return $that instanceof jQuery;
@@ -484,9 +521,75 @@ var DEMO;
             var gistEntry = DEMO.GistEntryFactory.createGistEntry(this.args.data[0]);
             return new DEMO.GistEntryViewModel(gistEntry);
         };
+
+        GistsViewModelFactory.prototype.createGistEntryListViewModel = function () {
+            var gistsEntryVM = [];
+
+            $.map(this.args.data, function (obj, key) {
+                gistsEntryVM.push(new DEMO.GistEntryViewModel(DEMO.GistEntryFactory.createGistEntry(obj)));
+            });
+
+            return gistsEntryVM;
+        };
         return GistsViewModelFactory;
     })();
     DEMO.GistsViewModelFactory = GistsViewModelFactory;
+})(DEMO || (DEMO = {}));
+;var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var DEMO;
+(function (DEMO) {
+    var GistEntryListView = (function (_super) {
+        __extends(GistEntryListView, _super);
+        function GistEntryListView(viewmodels) {
+            _super.call(this);
+            this.viewmodels = viewmodels;
+            this.tagName = 'section';
+            this.className = 'unit';
+
+            this.reflectTagName();
+            this.reflectAttribute();
+            this.render();
+        }
+        GistEntryListView.prototype.render = function () {
+            this.$el.append(this.renderHeaderTemplate());
+
+            var gistEntryListView = this;
+            $.each(this.renderGistEntryListView(), function () {
+                gistEntryListView.$el.append(this.$el);
+            });
+
+            this.$el.append(this.renderFooterTemplate());
+
+            return this;
+        };
+
+        GistEntryListView.prototype.renderHeaderTemplate = function () {
+            var template = new HACKLE.HBSTemplate('hbs/header.hbs');
+
+            return template.render({ title: 'update Gists' });
+        };
+
+        GistEntryListView.prototype.renderFooterTemplate = function () {
+            var template = new HACKLE.HBSTemplate('hbs/footer.hbs');
+
+            return template.render({ author: 'funnythingz', authorUrl: '//github.com/funnythingz' });
+        };
+
+        GistEntryListView.prototype.renderGistEntryListView = function () {
+            var gistEntryListView = $.map(this.viewmodels, function (viewmodel, key) {
+                return new DEMO.GistEntryView(viewmodel);
+            });
+
+            return gistEntryListView;
+        };
+        return GistEntryListView;
+    })(HACKLE.View);
+    DEMO.GistEntryListView = GistEntryListView;
 })(DEMO || (DEMO = {}));
 ;var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -501,9 +604,10 @@ var DEMO;
         function GistEntryView(viewmodel) {
             _super.call(this);
             this.viewmodel = viewmodel;
-            this.tagName = 'div';
+            this.tagName = 'article';
+            this.className = 'cassette';
             this.events = {
-                "click .hoge": this.hogeEvent
+                "click .owner": [this.jumpToOwnerPage, this.viewmodel.gistEntry.owner.ownerUrl.value]
             };
 
             this.reflectTagName();
@@ -512,13 +616,19 @@ var DEMO;
             this.render();
         }
         GistEntryView.prototype.render = function () {
-            this.$el.append('gist');
+            this.$el.append(this.renderTemplate());
 
             return this;
         };
 
-        GistEntryView.prototype.hogeEvent = function () {
-            console.log('hoge');
+        GistEntryView.prototype.jumpToOwnerPage = function (event, data) {
+            location.href = event.data;
+        };
+
+        GistEntryView.prototype.renderTemplate = function () {
+            var template = new HACKLE.HBSTemplate('hbs/gist-entry.hbs');
+
+            return template.render(this.viewmodel.gistEntry);
         };
         return GistEntryView;
     })(HACKLE.View);
@@ -548,9 +658,8 @@ var DEMO;
 (function (DEMO) {
     var Layout = (function (_super) {
         __extends(Layout, _super);
-        function Layout(viewCreateOptions) {
-            if (typeof viewCreateOptions === "undefined") { viewCreateOptions = {}; }
-            _super.call(this, viewCreateOptions);
+        function Layout() {
+            _super.call(this);
             this.$el = $('body');
         }
         Layout.prototype.display = function ($el) {
