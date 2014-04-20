@@ -1,5 +1,7 @@
 # HACKLE.View DEMO
 
-DEMOつくってる途中
+use [HACKLE.View](https://github.com/funnythingz/hackleview)
+
+[DEMO](http://www.funnythingz.com/hackleview-demo/)
 
 &copy; funnythingz
