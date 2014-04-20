@@ -20,17 +20,27 @@ module DEMO {
 
         render(): GistEntryView {
 
-            this.$el.append('gist');
+            this.$el.append(
+                this.renderTemplate()
+            );
 
             return this;
         }
 
         events = {
-            "click .hoge" : this.hogeEvent
+        //"click .owner" : [this.jumpToOwnerPage, this.viewmodel.gistEntry.owner.ownerUrl.value]
+        "click .owner" : [this.jumpToOwnerPage, {value: 'hoge'}]
         }
 
-        private hogeEvent() {
-            console.log('hoge');
+        private jumpToOwnerPage(event) {
+            console.log(event);
+            //location.href = data;
+        }
+
+        private renderTemplate(): string {
+            var template = new HACKLE.HBSTemplate('hbs/gist-entry.hbs');
+
+            return template.render(this.viewmodel.gistEntry);
         }
 
     }

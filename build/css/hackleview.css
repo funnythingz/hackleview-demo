@@ -1,1 +1,1 @@
-.cassette,.item,.list{display:block}.item{font-size:14px}.list{font-size:12px}
+.gist,.description,.figcaption{line-height:1.5}.gist,.description,.figcaption{font-size:14px}.cassette{display:block}.flex{display:table}.flex .item{display:table-cell;vertical-align:top}.owner{cursor:pointer}.owner img{width:72px;height:72px}

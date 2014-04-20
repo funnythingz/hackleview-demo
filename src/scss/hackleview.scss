@@ -1,23 +1,53 @@
 @charset "utf-8";
 @import "compass/css3";
 
-@mixin medium {
-  font-size: 14px;
+%_sentence {
+    line-height: 1.5;
 }
+
+@mixin medium {
+    font-size: 14px;
+    @extend %_sentence;
+}
+
 @mixin small {
-  font-size: 12px;
+    font-size: 12px;
+    @extend %_sentence;
+}
+
+%_medium-sentence {
+    @extend %_sentence;
+    @include medium;
 }
 
 .cassette {
-  display: block;
+    display: block;
 }
 
-.item {
-  @extend .cassette;
-  @include medium;
-  
+.flex {
+    display: table;
+
+    .item {
+        display: table-cell;
+        vertical-align: top;
+    }
 }
-.list {
-  @extend .cassette;
-  @include small;
+
+.gist {
+    @extend %_medium-sentence;
+}
+.description {
+    @extend %_medium-sentence;
+}
+.figcaption {
+    @extend %_medium-sentence;
+}
+
+.owner {
+    cursor: pointer;
+
+    img {
+        width: 72px;
+        height: 72px;
+    }
 }

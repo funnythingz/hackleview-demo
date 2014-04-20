@@ -7,8 +7,8 @@ module DEMO {
 
         $el = $('body');
 
-        constructor(viewCreateOptions: HACKLE.IViewCreateOptions = {}) {
-            super(viewCreateOptions);
+        constructor() {
+            super();
         }
 
         display($el: JQuery) {

@@ -503,7 +503,7 @@ var DEMO;
             this.viewmodel = viewmodel;
             this.tagName = 'div';
             this.events = {
-                "click .hoge": this.hogeEvent
+                "click .owner": [this.jumpToOwnerPage, { value: 'hoge' }]
             };
 
             this.reflectTagName();
@@ -512,13 +512,19 @@ var DEMO;
             this.render();
         }
         GistEntryView.prototype.render = function () {
-            this.$el.append('gist');
+            this.$el.append(this.renderTemplate());
 
             return this;
         };
 
-        GistEntryView.prototype.hogeEvent = function () {
-            console.log('hoge');
+        GistEntryView.prototype.jumpToOwnerPage = function (event) {
+            console.log(event);
+        };
+
+        GistEntryView.prototype.renderTemplate = function () {
+            var template = new HACKLE.HBSTemplate('hbs/gist-entry.hbs');
+
+            return template.render(this.viewmodel.gistEntry);
         };
         return GistEntryView;
     })(HACKLE.View);
@@ -548,9 +554,8 @@ var DEMO;
 (function (DEMO) {
     var Layout = (function (_super) {
         __extends(Layout, _super);
-        function Layout(viewCreateOptions) {
-            if (typeof viewCreateOptions === "undefined") { viewCreateOptions = {}; }
-            _super.call(this, viewCreateOptions);
+        function Layout() {
+            _super.call(this);
             this.$el = $('body');
         }
         Layout.prototype.display = function ($el) {
