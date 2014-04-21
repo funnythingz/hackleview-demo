@@ -11,7 +11,7 @@ module DEMO {
         constructor(public args: any) {}
 
         createGistEntryViewModel(): GistEntryViewModel {
-            var gistEntry: Model.GistEntry = GistEntryFactory.createGistEntry(this.args.data[0]);
+            var gistEntry: Model.GistEntry = GistEntryRepository.resolve(this.args.data[0]);
             return new GistEntryViewModel(gistEntry);
         }
 
@@ -20,7 +20,7 @@ module DEMO {
 
             $.map(this.args.data, function(obj, key) {
                 gistsEntryVM.push(
-                    new GistEntryViewModel(GistEntryFactory.createGistEntry(obj))
+                    new GistEntryViewModel(GistEntryRepository.resolve(obj))
                 );
             });
 

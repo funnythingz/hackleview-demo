@@ -7,7 +7,7 @@ module DEMO {
 
     export class GistEntryRepository {
 
-        resolve(data: any): Model.GistEntry {
+        static resolve(data: any): Model.GistEntry {
             return GistEntryFactory.createGistEntry(data);
         }
 

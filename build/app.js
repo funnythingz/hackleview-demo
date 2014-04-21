@@ -316,7 +316,7 @@ var DEMO;
     var GistEntryRepository = (function () {
         function GistEntryRepository() {
         }
-        GistEntryRepository.prototype.resolve = function (data) {
+        GistEntryRepository.resolve = function (data) {
             return DEMO.GistEntryFactory.createGistEntry(data);
         };
         return GistEntryRepository;
@@ -518,7 +518,7 @@ var DEMO;
             this.args = args;
         }
         GistsViewModelFactory.prototype.createGistEntryViewModel = function () {
-            var gistEntry = DEMO.GistEntryFactory.createGistEntry(this.args.data[0]);
+            var gistEntry = DEMO.GistEntryRepository.resolve(this.args.data[0]);
             return new DEMO.GistEntryViewModel(gistEntry);
         };
 
@@ -526,7 +526,7 @@ var DEMO;
             var gistsEntryVM = [];
 
             $.map(this.args.data, function (obj, key) {
-                gistsEntryVM.push(new DEMO.GistEntryViewModel(DEMO.GistEntryFactory.createGistEntry(obj)));
+                gistsEntryVM.push(new DEMO.GistEntryViewModel(DEMO.GistEntryRepository.resolve(obj)));
             });
 
             return gistsEntryVM;
