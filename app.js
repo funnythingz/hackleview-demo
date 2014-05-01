@@ -5,6 +5,7 @@ var DEMO;
         }
         Application.prototype.ready = function () {
             var controller = new DEMO.Controller();
+            controller.start();
         };
         return Application;
     })();
@@ -19,23 +20,32 @@ var DEMO;
     var Controller = (function () {
         function Controller() {
             this.layout = new DEMO.Layout();
-            this.promise = new Infra.Promise();
-            this.index();
         }
-        Controller.prototype.index = function () {
+        Controller.prototype.start = function () {
             var layout = this.layout;
+            var promise = ControllerRepository.promise();
 
-            this.promise.done(function (data) {
-                var gistsVMFactory = new DEMO.GistsViewModelFactory(data);
-                var gistsEntryVM = gistsVMFactory.createGistEntryListViewModel();
+            promise.done(function (responseJsonFromGistsAPI) {
+                var factory = new DEMO.GistsViewModelFactory(responseJsonFromGistsAPI);
+                var gistEntryViewModels = factory.createGistEntryListViewModel();
 
-                var gistEntryListView = new DEMO.GistEntryListView(gistsEntryVM);
+                var gistEntryListView = new DEMO.GistEntryListView(gistEntryViewModels);
                 layout.display(gistEntryListView.$el);
             });
         };
         return Controller;
     })();
     DEMO.Controller = Controller;
+
+    var ControllerRepository = (function () {
+        function ControllerRepository() {
+        }
+        ControllerRepository.promise = function () {
+            return Infra.GistsAPI.resolve();
+        };
+        return ControllerRepository;
+    })();
+    DEMO.ControllerRepository = ControllerRepository;
 })(DEMO || (DEMO = {}));
 ;var Infra;
 (function (Infra) {
@@ -43,27 +53,13 @@ var DEMO;
         function GistsAPI() {
         }
         GistsAPI.resolve = function () {
-            var apiPath = GistsAPI.getApiPath();
+            var apiPath = 'https://api.github.com/gists';
 
-            var promise = $.ajax({ type: 'get', url: apiPath, dataType: 'jsonp', async: true });
-
-            return promise;
-        };
-
-        GistsAPI.getApiPath = function () {
-            return "https://api.github.com/gists";
+            return $.ajax({ type: 'get', url: apiPath, dataType: 'jsonp', async: true });
         };
         return GistsAPI;
     })();
     Infra.GistsAPI = GistsAPI;
-
-    var Promise = (function () {
-        function Promise() {
-            return GistsAPI.resolve();
-        }
-        return Promise;
-    })();
-    Infra.Promise = Promise;
 })(Infra || (Infra = {}));
 ;var DDD;
 (function (DDD) {
@@ -311,18 +307,6 @@ var DEMO;
     })();
     DEMO.GistEntryFactory = GistEntryFactory;
 })(DEMO || (DEMO = {}));
-;var DEMO;
-(function (DEMO) {
-    var GistEntryRepository = (function () {
-        function GistEntryRepository() {
-        }
-        GistEntryRepository.prototype.resolve = function (data) {
-            return DEMO.GistEntryFactory.createGistEntry(data);
-        };
-        return GistEntryRepository;
-    })();
-    DEMO.GistEntryRepository = GistEntryRepository;
-})(DEMO || (DEMO = {}));
 ;var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -504,8 +488,10 @@ var DEMO;
 ;var DEMO;
 (function (DEMO) {
     var GistEntryViewModel = (function () {
-        function GistEntryViewModel(gistEntry) {
+        function GistEntryViewModel(gistEntry, createdAtDate, updatedAtDate) {
             this.gistEntry = gistEntry;
+            this.createdAtDate = createdAtDate;
+            this.updatedAtDate = updatedAtDate;
         }
         return GistEntryViewModel;
     })();
@@ -519,17 +505,20 @@ var DEMO;
         }
         GistsViewModelFactory.prototype.createGistEntryViewModel = function () {
             var gistEntry = DEMO.GistEntryFactory.createGistEntry(this.args.data[0]);
-            return new DEMO.GistEntryViewModel(gistEntry);
+            var createdAtDate = new DEMO.Model.CreatedAtDate(this.args.data[0].created_at);
+            var updatedAtDate = new DEMO.Model.UpdatedAtDate(this.args.data[0].updated_at);
+
+            return new DEMO.GistEntryViewModel(gistEntry, createdAtDate, updatedAtDate);
         };
 
         GistsViewModelFactory.prototype.createGistEntryListViewModel = function () {
-            var gistsEntryVM = [];
+            var gistsEntryViewModel = [];
 
             $.map(this.args.data, function (obj, key) {
-                gistsEntryVM.push(new DEMO.GistEntryViewModel(DEMO.GistEntryFactory.createGistEntry(obj)));
+                gistsEntryViewModel.push(new DEMO.GistEntryViewModel(DEMO.GistEntryFactory.createGistEntry(obj), new DEMO.Model.CreatedAtDate(obj.created_at), new DEMO.Model.UpdatedAtDate(obj.updated_at)));
             });
 
-            return gistsEntryVM;
+            return gistsEntryViewModel;
         };
         return GistsViewModelFactory;
     })();
@@ -626,7 +615,7 @@ var DEMO;
         GistEntryView.prototype.renderTemplate = function () {
             var template = new HACKLE.HBSTemplate('hbs/gist-entry.hbs');
 
-            return template.render(this.viewmodel.gistEntry);
+            return template.render(this.viewmodel);
         };
         return GistEntryView;
     })(HACKLE.View);
