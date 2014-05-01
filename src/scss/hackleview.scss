@@ -1,80 +1,102 @@
 @charset "utf-8";
 @import "compass/css3";
 
+body {
+  font-family:
+    'Lucida Grande',
+    'Hiragino Kaku Gothic ProN',
+    'ヒラギノ角ゴ ProN W3',
+    Meiryo, メイリオ, sans-serif;
+}
+
 %_sentence {
-    line-height: 1.5;
+  line-height: 1.5;
 }
 
 @mixin medium {
-    font-size: 14px;
-    @extend %_sentence;
+  font-size: 14px;
+  @extend %_sentence;
 }
 
 @mixin small {
-    font-size: 12px;
-    @extend %_sentence;
+  font-size: 12px;
+  @extend %_sentence;
 }
 
 %_medium-sentence {
-    @extend %_sentence;
-    @include medium;
+  @extend %_sentence;
+  @include medium;
 }
 
 %_small-sentence {
-    @extend %_sentence;
-    @include small;
+  @extend %_sentence;
+  @include small;
+}
+
+h1 {
+  color: #345;
 }
 
 .cassette {
-    display: inline-block;
-    vertical-align: bottom;
-    width: 450px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 450px;
+  border: solid 1px #e1e2e3;
+  margin: 8px;
+  padding: 8px;
+  @include border-radius(8px);
+  @include box-shadow(0 1px 3px #f7f8f9);
 }
 
 .flex {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
 
-    .item {
-        display: table-cell;
-        vertical-align: top;
+  .item {
+    display: table-cell;
+    vertical-align: top;
 
-        figure {
-            figcaption {
-                word-wrap: break-word;
-                @extend %_small-sentence;
-            }
-        }
+    figure {
 
-        &.item-owner {
-            width: 150px;
-        }
+      figcaption {
+        word-wrap: break-word;
+        @extend %_small-sentence;
+      }
     }
+
+    &.item-owner {
+      padding-right: 8px;
+      text-align: center;
+      width: 88px;
+    }
+  }
 }
 
 .gist {
-    @extend %_medium-sentence;
+  @extend %_medium-sentence;
 }
 .description {
-    @extend %_medium-sentence;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+  @extend %_medium-sentence;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .figcaption {
-    @extend %_medium-sentence;
+  @extend %_medium-sentence;
 }
 
 .owner {
-    cursor: pointer;
+  cursor: pointer;
+  margin: 0;
 
-    img {
-        width: 72px;
-        height: 72px;
-    }
+  img {
+    width: 72px;
+    height: 72px;
+  }
 }
 
 .copyright {
-    text-align: center;
+  text-align: center;
+  color: #789;
 }
