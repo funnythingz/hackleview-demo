@@ -488,8 +488,10 @@ var DEMO;
 ;var DEMO;
 (function (DEMO) {
     var GistEntryViewModel = (function () {
-        function GistEntryViewModel(gistEntry) {
+        function GistEntryViewModel(gistEntry, createdAtDate, updatedAtDate) {
             this.gistEntry = gistEntry;
+            this.createdAtDate = createdAtDate;
+            this.updatedAtDate = updatedAtDate;
         }
         return GistEntryViewModel;
     })();
@@ -503,17 +505,20 @@ var DEMO;
         }
         GistsViewModelFactory.prototype.createGistEntryViewModel = function () {
             var gistEntry = DEMO.GistEntryFactory.createGistEntry(this.args.data[0]);
-            return new DEMO.GistEntryViewModel(gistEntry);
+            var createdAtDate = new DEMO.Model.CreatedAtDate(this.args.data[0].created_at);
+            var updatedAtDate = new DEMO.Model.UpdatedAtDate(this.args.data[0].updated_at);
+
+            return new DEMO.GistEntryViewModel(gistEntry, createdAtDate, updatedAtDate);
         };
 
         GistsViewModelFactory.prototype.createGistEntryListViewModel = function () {
-            var gistsEntryVM = [];
+            var gistsEntryViewModel = [];
 
             $.map(this.args.data, function (obj, key) {
-                gistsEntryVM.push(new DEMO.GistEntryViewModel(DEMO.GistEntryFactory.createGistEntry(obj)));
+                gistsEntryViewModel.push(new DEMO.GistEntryViewModel(DEMO.GistEntryFactory.createGistEntry(obj), new DEMO.Model.CreatedAtDate(obj.created_at), new DEMO.Model.UpdatedAtDate(obj.updated_at)));
             });
 
-            return gistsEntryVM;
+            return gistsEntryViewModel;
         };
         return GistsViewModelFactory;
     })();
@@ -610,7 +615,7 @@ var DEMO;
         GistEntryView.prototype.renderTemplate = function () {
             var template = new HACKLE.HBSTemplate('hbs/gist-entry.hbs');
 
-            return template.render(this.viewmodel.gistEntry);
+            return template.render(this.viewmodel);
         };
         return GistEntryView;
     })(HACKLE.View);

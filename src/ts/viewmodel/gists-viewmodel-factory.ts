@@ -1,4 +1,4 @@
-/// <reference path="../model/gist-entry-factory.ts" />
+/// <reference path="../model/factory.ts" />
 /// <reference path="../views/layout.ts" />
 /// <reference path="../views/gist-entry-view.ts" />
 /// <reference path="../viewmodel/gist-entry-viewmodel.ts" />
@@ -12,19 +12,24 @@ module DEMO {
 
         createGistEntryViewModel(): GistEntryViewModel {
             var gistEntry: Model.GistEntry = GistEntryFactory.createGistEntry(this.args.data[0]);
-            return new GistEntryViewModel(gistEntry);
+            var createdAtDate: Model.CreatedAtDate = new Model.CreatedAtDate(this.args.data[0].created_at);
+            var updatedAtDate: Model.UpdatedAtDate = new Model.UpdatedAtDate(this.args.data[0].updated_at);
+
+            return new GistEntryViewModel(gistEntry, createdAtDate, updatedAtDate);
         }
 
         createGistEntryListViewModel(): GistEntryViewModel[] {
-            var gistsEntryVM: GistEntryViewModel[] = [];
+            var gistsEntryViewModel: GistEntryViewModel[] = [];
 
             $.map(this.args.data, function(obj, key) {
-                gistsEntryVM.push(
-                    new GistEntryViewModel(GistEntryFactory.createGistEntry(obj))
+                gistsEntryViewModel.push(
+                    new GistEntryViewModel(GistEntryFactory.createGistEntry(obj),
+                                           new Model.CreatedAtDate(obj.created_at),
+                                           new Model.UpdatedAtDate(obj.updated_at))
                 );
             });
 
-            return gistsEntryVM;
+            return gistsEntryViewModel;
         }
 
     }

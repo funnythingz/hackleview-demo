@@ -37,6 +37,19 @@ h1 {
   color: #345;
 }
 
+.meta {
+  color: #789;
+  margin: 0;
+  padding: 0;
+  @extend %_small-sentence;
+
+  li {
+    list-style: none;
+    display: inline;
+    margin-right: 8px;
+  }
+}
+
 .cassette {
   display: inline-block;
   vertical-align: middle;
@@ -75,9 +88,11 @@ h1 {
 
 .gist {
   @extend %_medium-sentence;
+  margin: 0 0 8px;
 }
 .description {
   @extend %_medium-sentence;
+  margin: 0 0 4px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

@@ -1,12 +1,16 @@
 <div class="flex">
     <div class="item item-owner">
-        <figure id="owner-{{owner.identity.value}}" class="owner">
-            <img src="{{owner.avatar.avatarUrl}}" class="avatar">
-            <figcaption>{{owner.ownerName.value}}</figcaption>
+        <figure id="owner-{{gistEntry.owner.identity.value}}" class="owner">
+            <img src="{{gistEntry.owner.avatar.avatarUrl}}" class="avatar">
+            <figcaption>{{gistEntry.owner.ownerName.value}}</figcaption>
         </figure>
     </div>
     <div class="item">
-        <p class="description">{{gist.gistDescription.value}}</p>
-        <p class="gist"><a href="{{gist.gistUrl.value}}">{{gist.gistUrl.value}}</a></p>
+        <p class="description">{{gistEntry.gist.gistDescription.value}}</p>
+        <p class="gist"><a href="{{gistEntry.gist.gistUrl.value}}">{{gistEntry.gist.gistUrl.value}}</a></p>
+        <ul class="meta">
+            <li>updated at: {{updatedAtDate.month}}.{{updatedAtDate.day}}.{{updatedAtDate.fullYear}}</li>
+            <li>created at: {{createdAtDate.month}}.{{createdAtDate.day}}.{{createdAtDate.fullYear}}</li>
+        </ul>
     </div>
 </div>

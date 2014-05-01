@@ -39,7 +39,7 @@ module DEMO {
         private renderTemplate(): string {
             var template = new HACKLE.HBSTemplate('hbs/gist-entry.hbs');
 
-            return template.render(this.viewmodel.gistEntry);
+            return template.render(this.viewmodel);
         }
 
     }
