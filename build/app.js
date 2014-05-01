@@ -311,18 +311,6 @@ var DEMO;
     })();
     DEMO.GistEntryFactory = GistEntryFactory;
 })(DEMO || (DEMO = {}));
-;var DEMO;
-(function (DEMO) {
-    var GistEntryRepository = (function () {
-        function GistEntryRepository() {
-        }
-        GistEntryRepository.resolve = function (data) {
-            return DEMO.GistEntryFactory.createGistEntry(data);
-        };
-        return GistEntryRepository;
-    })();
-    DEMO.GistEntryRepository = GistEntryRepository;
-})(DEMO || (DEMO = {}));
 ;var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -518,7 +506,7 @@ var DEMO;
             this.args = args;
         }
         GistsViewModelFactory.prototype.createGistEntryViewModel = function () {
-            var gistEntry = DEMO.GistEntryRepository.resolve(this.args.data[0]);
+            var gistEntry = DEMO.GistEntryFactory.createGistEntry(this.args.data[0]);
             return new DEMO.GistEntryViewModel(gistEntry);
         };
 
@@ -526,7 +514,7 @@ var DEMO;
             var gistsEntryVM = [];
 
             $.map(this.args.data, function (obj, key) {
-                gistsEntryVM.push(new DEMO.GistEntryViewModel(DEMO.GistEntryRepository.resolve(obj)));
+                gistsEntryVM.push(new DEMO.GistEntryViewModel(DEMO.GistEntryFactory.createGistEntry(obj)));
             });
 
             return gistsEntryVM;
