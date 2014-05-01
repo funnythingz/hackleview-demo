@@ -5,6 +5,7 @@ var DEMO;
         }
         Application.prototype.ready = function () {
             var controller = new DEMO.Controller();
+            controller.start();
         };
         return Application;
     })();
@@ -19,23 +20,32 @@ var DEMO;
     var Controller = (function () {
         function Controller() {
             this.layout = new DEMO.Layout();
-            this.promise = new Infra.Promise();
-            this.index();
         }
-        Controller.prototype.index = function () {
+        Controller.prototype.start = function () {
             var layout = this.layout;
+            var promise = ControllerRepository.promise();
 
-            this.promise.done(function (data) {
-                var gistsVMFactory = new DEMO.GistsViewModelFactory(data);
-                var gistsEntryVM = gistsVMFactory.createGistEntryListViewModel();
+            promise.done(function (responseJsonFromGistsAPI) {
+                var factory = new DEMO.GistsViewModelFactory(responseJsonFromGistsAPI);
+                var gistEntryViewModels = factory.createGistEntryListViewModel();
 
-                var gistEntryListView = new DEMO.GistEntryListView(gistsEntryVM);
+                var gistEntryListView = new DEMO.GistEntryListView(gistEntryViewModels);
                 layout.display(gistEntryListView.$el);
             });
         };
         return Controller;
     })();
     DEMO.Controller = Controller;
+
+    var ControllerRepository = (function () {
+        function ControllerRepository() {
+        }
+        ControllerRepository.promise = function () {
+            return Infra.GistsAPI.resolve();
+        };
+        return ControllerRepository;
+    })();
+    DEMO.ControllerRepository = ControllerRepository;
 })(DEMO || (DEMO = {}));
 ;var Infra;
 (function (Infra) {
@@ -43,27 +53,13 @@ var DEMO;
         function GistsAPI() {
         }
         GistsAPI.resolve = function () {
-            var apiPath = GistsAPI.getApiPath();
+            var apiPath = 'https://api.github.com/gists';
 
-            var promise = $.ajax({ type: 'get', url: apiPath, dataType: 'jsonp', async: true });
-
-            return promise;
-        };
-
-        GistsAPI.getApiPath = function () {
-            return "https://api.github.com/gists";
+            return $.ajax({ type: 'get', url: apiPath, dataType: 'jsonp', async: true });
         };
         return GistsAPI;
     })();
     Infra.GistsAPI = GistsAPI;
-
-    var Promise = (function () {
-        function Promise() {
-            return GistsAPI.resolve();
-        }
-        return Promise;
-    })();
-    Infra.Promise = Promise;
 })(Infra || (Infra = {}));
 ;var DDD;
 (function (DDD) {

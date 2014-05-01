@@ -6,6 +6,7 @@ module DEMO {
 
         ready() {
             var controller: Controller = new Controller();
+            controller.start();
         }
 
     }

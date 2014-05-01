@@ -8,30 +8,33 @@ module DEMO {
 
     export interface IController {
         layout: Layout;
-        promise: any;
     }
 
     export class Controller implements IController {
 
         layout: Layout = new Layout();
-        promise: any = new Infra.Promise();
 
-        constructor() {
-            this.index();
-        }
-
-        index() {
+        start() {
 
             var layout = this.layout;
+            var promise = ControllerRepository.promise();
 
-            this.promise.done(function(data) {
-                var gistsVMFactory: GistsViewModelFactory = new GistsViewModelFactory(data);
-                var gistsEntryVM: GistEntryViewModel[] = gistsVMFactory.createGistEntryListViewModel();
+            promise.done(function(responseJsonFromGistsAPI: any) {
+                var factory: GistsViewModelFactory = new GistsViewModelFactory(responseJsonFromGistsAPI);
+                var gistEntryViewModels: GistEntryViewModel[] = factory.createGistEntryListViewModel();
 
-                var gistEntryListView: GistEntryListView = new GistEntryListView(gistsEntryVM);
+                var gistEntryListView: GistEntryListView = new GistEntryListView(gistEntryViewModels);
                 layout.display(gistEntryListView.$el);
             });
 
+        }
+
+    }
+
+    export class ControllerRepository {
+
+        static promise(): JQueryXHR {
+            return Infra.GistsAPI.resolve();
         }
 
     }

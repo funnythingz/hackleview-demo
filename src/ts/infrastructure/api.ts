@@ -4,26 +4,12 @@ module Infra {
 
     export class GistsAPI {
 
-        static resolve() {
+        static resolve(): JQueryXHR {
 
-            var apiPath: string = GistsAPI.getApiPath();
+            var apiPath: string = 'https://api.github.com/gists';
 
-            var promise = $.ajax({type: 'get', url: apiPath, dataType: 'jsonp', async: true});
+            return $.ajax({type: 'get', url: apiPath, dataType: 'jsonp', async: true});
 
-            return promise;
-
-        }
-
-        static getApiPath(): string {
-            return "https://api.github.com/gists";
-        }
-
-    }
-
-    export class Promise {
-
-        constructor() {
-            return GistsAPI.resolve();
         }
 
     }
