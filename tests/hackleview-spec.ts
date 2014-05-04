@@ -10,11 +10,6 @@ module HACKLE {
 
     describe("HACKLE.View", function() {
 
-        it("test", function() {
-            var hoge: string = "hoge";
-            hoge.should.be.equal("hoge");
-        });
-
         describe("on the default instance", function() {
 
             var div: View = new View();

@@ -4,6 +4,8 @@ var DEMO;
         function Application() {
         }
         Application.prototype.ready = function () {
+            FastClick.attach(document.body);
+
             var controller = new DEMO.Controller();
             controller.start();
         };

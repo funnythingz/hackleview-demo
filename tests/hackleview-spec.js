@@ -3,11 +3,6 @@ var HACKLE;
     chai.should();
 
     describe("HACKLE.View", function () {
-        it("test", function () {
-            var hoge = "hoge";
-            hoge.should.be.equal("hoge");
-        });
-
         describe("on the default instance", function () {
             var div = new HACKLE.View();
 
