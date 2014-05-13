@@ -1,4 +1,71 @@
-var DEMO;
+this["HACKLE_HBS"] = this["HACKLE_HBS"] || {};
+this["HACKLE_HBS"]["Templates"] = this["HACKLE_HBS"]["Templates"] || {};
+
+this["HACKLE_HBS"]["Templates"]["src/hbs/footer.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<footer>\n    <p class=\"copyright\">&copy; <a href=\"//github.com/";
+  if (helper = helpers.author) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.author); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (helper = helpers.author) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.author); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</a></p>\n</footer>\n";
+  return buffer;
+  });
+
+this["HACKLE_HBS"]["Templates"]["src/hbs/gist-entry.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div class=\"flex\">\n    <div class=\"item item-owner\">\n        <figure id=\"owner-"
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = ((stack1 = (depth0 && depth0.gistEntry)),stack1 == null || stack1 === false ? stack1 : stack1.owner)),stack1 == null || stack1 === false ? stack1 : stack1.identity)),stack1 == null || stack1 === false ? stack1 : stack1.value)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\" class=\"owner\">\n            <img src=\""
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = ((stack1 = (depth0 && depth0.gistEntry)),stack1 == null || stack1 === false ? stack1 : stack1.owner)),stack1 == null || stack1 === false ? stack1 : stack1.avatar)),stack1 == null || stack1 === false ? stack1 : stack1.avatarUrl)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\" class=\"avatar\">\n            <figcaption>"
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = ((stack1 = (depth0 && depth0.gistEntry)),stack1 == null || stack1 === false ? stack1 : stack1.owner)),stack1 == null || stack1 === false ? stack1 : stack1.ownerName)),stack1 == null || stack1 === false ? stack1 : stack1.value)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</figcaption>\n        </figure>\n    </div>\n    <div class=\"item\">\n        <p class=\"description\">"
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = ((stack1 = (depth0 && depth0.gistEntry)),stack1 == null || stack1 === false ? stack1 : stack1.gist)),stack1 == null || stack1 === false ? stack1 : stack1.gistDescription)),stack1 == null || stack1 === false ? stack1 : stack1.value)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</p>\n        <p class=\"gist\"><a href=\""
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = ((stack1 = (depth0 && depth0.gistEntry)),stack1 == null || stack1 === false ? stack1 : stack1.gist)),stack1 == null || stack1 === false ? stack1 : stack1.gistUrl)),stack1 == null || stack1 === false ? stack1 : stack1.value)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\">"
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = ((stack1 = (depth0 && depth0.gistEntry)),stack1 == null || stack1 === false ? stack1 : stack1.gist)),stack1 == null || stack1 === false ? stack1 : stack1.gistUrl)),stack1 == null || stack1 === false ? stack1 : stack1.value)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</a></p>\n        <ul class=\"meta\">\n            <li>updated at: "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.updatedAtDate)),stack1 == null || stack1 === false ? stack1 : stack1.month)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "."
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.updatedAtDate)),stack1 == null || stack1 === false ? stack1 : stack1.day)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "."
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.updatedAtDate)),stack1 == null || stack1 === false ? stack1 : stack1.fullYear)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</li>\n            <li>created at: "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.createdAtDate)),stack1 == null || stack1 === false ? stack1 : stack1.month)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "."
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.createdAtDate)),stack1 == null || stack1 === false ? stack1 : stack1.day)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "."
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.createdAtDate)),stack1 == null || stack1 === false ? stack1 : stack1.fullYear)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</li>\n        </ul>\n    </div>\n</div>\n";
+  return buffer;
+  });
+
+this["HACKLE_HBS"]["Templates"]["src/hbs/header.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<header>\n    <h1 class=\"heading\">";
+  if (helper = helpers.title) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.title); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</h1>\n</header>\n";
+  return buffer;
+  });;var DEMO;
 (function (DEMO) {
     var Application = (function () {
         function Application() {
@@ -97,7 +164,8 @@ var DEMO;
     })();
     DDD.Identity = Identity;
 })(DDD || (DDD = {}));
-;var HACKLE;
+;
+var HACKLE;
 (function (HACKLE) {
     var View = (function () {
         function View(viewCreateOptions) {
@@ -186,22 +254,7 @@ var DEMO;
         }
         HBSTemplate.prototype.render = function (data) {
             if (typeof data === "undefined") { data = {}; }
-            var resultHTML;
-            var _hbsName = this.hbsName;
-
-            var $getHBSTemplate = $.ajax({
-                url: _hbsName,
-                type: 'get',
-                dataType: 'html',
-                async: false
-            });
-
-            $getHBSTemplate.done(function (hbs) {
-                var template = Handlebars.compile(hbs);
-                resultHTML = template(data);
-            });
-
-            return resultHTML;
+            return HACKLE_HBS.Templates[this.hbsName](data);
         };
         return HBSTemplate;
     })();
@@ -560,13 +613,13 @@ var DEMO;
         };
 
         GistEntryListView.prototype.renderHeaderTemplate = function () {
-            var template = new HACKLE.HBSTemplate('hbs/header.hbs');
+            var template = new HACKLE.HBSTemplate('src/hbs/header.hbs');
 
             return template.render({ title: 'update Gists' });
         };
 
         GistEntryListView.prototype.renderFooterTemplate = function () {
-            var template = new HACKLE.HBSTemplate('hbs/footer.hbs');
+            var template = new HACKLE.HBSTemplate('src/hbs/footer.hbs');
 
             return template.render({ author: 'funnythingz' });
         };
@@ -615,7 +668,7 @@ var DEMO;
         };
 
         GistEntryView.prototype.renderTemplate = function () {
-            var template = new HACKLE.HBSTemplate('hbs/gist-entry.hbs');
+            var template = new HACKLE.HBSTemplate('src/hbs/gist-entry.hbs');
 
             return template.render(this.viewmodel);
         };

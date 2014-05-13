@@ -37,7 +37,8 @@ module DEMO {
         }
 
         private renderTemplate(): string {
-            var template = new HACKLE.HBSTemplate('hbs/gist-entry.hbs');
+
+            var template = new HACKLE.HBSTemplate('src/hbs/gist-entry.hbs');
 
             return template.render(this.viewmodel);
         }

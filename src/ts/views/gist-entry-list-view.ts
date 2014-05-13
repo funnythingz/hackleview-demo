@@ -33,13 +33,15 @@ module DEMO {
         }
 
         private renderHeaderTemplate(): string {
-            var template = new HACKLE.HBSTemplate('hbs/header.hbs');
+
+            var template = new HACKLE.HBSTemplate('src/hbs/header.hbs');
 
             return template.render({title: 'update Gists'});
         }
 
         private renderFooterTemplate(): string {
-            var template = new HACKLE.HBSTemplate('hbs/footer.hbs');
+
+            var template = new HACKLE.HBSTemplate('src/hbs/footer.hbs');
 
             return template.render({author: 'funnythingz'});
         }
