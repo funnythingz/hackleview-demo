@@ -45,14 +45,6 @@ module.exports = (grunt)->
           dest: 'build/'
         }]
 
-      hbs:
-        files: [{
-          expand: true
-          cwd: 'src/hbs/'
-          src: ['**/*.hbs']
-          dest: 'build/hbs/'
-        }]
-
       assets:
         files: [{
           expand: true
