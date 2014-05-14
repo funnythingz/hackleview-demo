@@ -109,7 +109,7 @@ module.exports = (grunt)->
         options:
           atBegin: true
 
-    clean: ['src/hbs/**/*.js', 'src/ts/**/*.js', 'build/hbs/**/*.hbs']
+    clean: ['src/hbs/**/*.js', 'src/ts/**/*.js', 'build/hbs/**/*.hbs', 'build/app.js']
 
     connect:
       server:
