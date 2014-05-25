@@ -1,6 +1,6 @@
 /// <reference path="../infrastructure/api.ts" />
-/// <reference path="../views/layout.ts" />
-/// <reference path="../views/gist-entry-view.ts" />
+/// <reference path="../view/layout.ts" />
+/// <reference path="../view/gist-entry-view.ts" />
 /// <reference path="../viewmodel/gists-viewmodel-factory.ts" />
 /// <reference path="../viewmodel/gist-entry-viewmodel.ts" />
 

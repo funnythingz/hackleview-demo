@@ -7,14 +7,10 @@ module DEMO {
 
     export class GistEntryListView extends HACKLE.View {
 
-        tagName: string = 'section';
-        className: string = 'unit';
+        constructor(public viewmodels: Array<GistEntryViewModel>) {
 
-        constructor(public viewmodels: GistEntryViewModel[]) {
-            super();
+            super({tagName: 'section', className: 'unit'});
 
-            this.reflectTagName();
-            this.reflectAttribute();
             this.render();
         }
 
@@ -22,9 +18,8 @@ module DEMO {
 
             this.$el.append(this.renderHeaderTemplate());
 
-            var gistEntryListView = this;
-            $.each(this.renderGistEntryListView(), function() {
-                gistEntryListView.$el.append(this.$el);
+            $.each(this.renderGistEntryListView(), (key, view)=> {
+                this.$el.append(view.$el);
             });
 
             this.$el.append(this.renderFooterTemplate());
@@ -46,7 +41,7 @@ module DEMO {
             return template.render({author: 'funnythingz'});
         }
 
-        private renderGistEntryListView(): GistEntryView[] {
+        private renderGistEntryListView(): Array<GistEntryView> {
             return $.map(this.viewmodels, function(viewmodel, key) {
                 return new GistEntryView(viewmodel)
             });

@@ -1,5 +1,5 @@
 {
-  "name": "HACKLE.View",
+  "name": "HACKLE.View-DEMO",
   "version": "0.0.0",
   "description": "Simple View for TypeScript",
   "author": "funnythingz",
@@ -10,7 +10,6 @@
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-watch": "latest",
-    "grunt-contrib-sass": "latest",
     "grunt-contrib-compass": "latest",
     "grunt-contrib-concat": "latest",
     "grunt-contrib-connect": "latest",

@@ -7,14 +7,10 @@ module DEMO {
 
     export class GistEntryView extends HACKLE.View {
 
-        tagName: string = 'article';
-        className: string = 'cassette';
-
         constructor(public viewmodel: GistEntryViewModel) {
-            super();
 
-            this.reflectTagName();
-            this.reflectAttribute();
+            super({tagName: 'article', className: 'cassette'});
+
             this.delegateEvents(this.events);
             this.render();
         }
@@ -29,11 +25,7 @@ module DEMO {
         }
 
         events = {
-            "click .owner" : [this.jumpToOwnerPage, this.viewmodel.gistEntry.owner.ownerUrl.value]
-        }
-
-        private jumpToOwnerPage(event, data) {
-            location.href = event.data;
+            "click .owner" : ()=> location.href = this.viewmodel.gistEntry.owner.ownerUrl.value
         }
 
         private renderTemplate(): string {

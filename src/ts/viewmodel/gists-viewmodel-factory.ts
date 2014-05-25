@@ -1,6 +1,6 @@
 /// <reference path="../model/factory.ts" />
-/// <reference path="../views/layout.ts" />
-/// <reference path="../views/gist-entry-view.ts" />
+/// <reference path="../view/layout.ts" />
+/// <reference path="../view/gist-entry-view.ts" />
 /// <reference path="../viewmodel/gist-entry-viewmodel.ts" />
 
 

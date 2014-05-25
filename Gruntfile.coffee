@@ -30,7 +30,7 @@ module.exports = (grunt)->
 
     concat:
       hackleview:
-        src: ['src/hbs/hbs-templates.js', 'src/ts/**/*.js']
+        src: ['src/hbs/hbs-templates.js', 'build/app.js']
         dest: 'build/app.js'
 
       options:
@@ -79,7 +79,13 @@ module.exports = (grunt)->
 
     typescript:
       base:
-        src: ['src/ts/**/*.ts', 'tests/**/*.ts']
+        src: ['src/ts/**/*.ts']
+        dest: 'build/app.js'
+        options:
+          sourceMap: true
+
+      test:
+        src: ['tests/**/*.ts']
         options:
           sourceMap: false
 
